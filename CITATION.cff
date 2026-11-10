@@ -1,0 +1,217 @@
+# Software metadata here; papers and datasets under references, fetched from doi.org (CSL JSON).
+cff-version: 1.2.0
+message: 'If you use these benchmarks, please cite this software and the paper of the benchmark you use (filter: Yoo et al.
+  2024; regression: Das et al. 2026), listed under references with their datasets.'
+title: Smart Pixels benchmarks
+abstract: Data loaders, features, reference models, training, metrics, leaderboards and Codabench packaging for the Smart
+  Pixels on-sensor filter and regression benchmarks.
+authors:
+- family-names: Gray
+  given-names: Lindsey
+license: Apache-2.0
+version: 0.1.0
+references:
+- type: article
+  title: 'Smart pixel sensors: towards on-sensor filtering of pixel clusters with deep learning'
+  authors:
+  - family-names: Yoo
+    given-names: Jieun
+  - family-names: Dickinson
+    given-names: Jennet
+  - family-names: Swartz
+    given-names: Morris
+  - family-names: Di Guglielmo
+    given-names: Giuseppe
+  - family-names: Bean
+    given-names: Alice
+  - family-names: Berry
+    given-names: Douglas
+  - family-names: Blanco Valentin
+    given-names: Manuel
+  - family-names: DiPetrillo
+    given-names: Karri
+  - family-names: Fahim
+    given-names: Farah
+  - family-names: Gray
+    given-names: Lindsey
+  - family-names: Hirschauer
+    given-names: James
+  - family-names: Kulkarni
+    given-names: Shruti R
+  - family-names: Lipton
+    given-names: Ron
+  - family-names: Maksimovic
+    given-names: Petar
+  - family-names: Mills
+    given-names: Corrinne
+  - family-names: Neubauer
+    given-names: Mark S
+  - family-names: Parpillon
+    given-names: Benjamin
+  - family-names: Pradhan
+    given-names: Gauri
+  - family-names: Syal
+    given-names: Chinar
+  - family-names: Tran
+    given-names: Nhan
+  - family-names: Wen
+    given-names: Dahai
+  - family-names: Young
+    given-names: Aaron
+  year: 2024
+  doi: 10.1088/2632-2153/ad6a00
+  journal: 'Machine Learning: Science and Technology'
+  volume: 5
+  issue: 3
+  start: '035047'
+  identifiers:
+  - type: other
+    value: arXiv:2310.02474
+    description: arXiv preprint
+  url: https://doi.org/10.1088/2632-2153/ad6a00
+- type: article
+  title: 'Smart Pixels: In-pixel AI for on-sensor data filtering'
+  authors:
+  - family-names: Parpillon
+    given-names: Benjamin
+  - family-names: Syal
+    given-names: Chinar
+  - family-names: Yoo
+    given-names: Jieun
+  - family-names: Dickinson
+    given-names: Jennet
+  - family-names: Swartz
+    given-names: Morris
+  - family-names: Di Guglielmo
+    given-names: Giuseppe
+  - family-names: Bean
+    given-names: Alice
+  - family-names: Berry
+    given-names: Douglas
+  - family-names: Valentin
+    given-names: Manuel Blanco
+  - family-names: DiPetrillo
+    given-names: Karri
+  - family-names: Badea
+    given-names: Anthony
+  - family-names: Gray
+    given-names: Lindsey
+  - family-names: Maksimovic
+    given-names: Petar
+  - family-names: Mills
+    given-names: Corrinne
+  - family-names: Neubauer
+    given-names: Mark S.
+  - family-names: Pradhan
+    given-names: Gauri
+  - family-names: Tran
+    given-names: Nhan
+  - family-names: Wen
+    given-names: Dahai
+  - family-names: Fahim
+    given-names: Farah
+  year: 2024
+  doi: 10.48550/arXiv.2406.14860
+  url: https://doi.org/10.48550/arXiv.2406.14860
+- type: article
+  title: On-chip probabilistic inference for charged-particle tracking at the sensor edge
+  authors:
+  - family-names: Das
+    given-names: Arghya Ranjan
+  - family-names: Jiang
+    given-names: David
+  - family-names: Kovach-Fuentes
+    given-names: Rachel
+  - family-names: Kuang
+    given-names: Shiqi
+  - family-names: Muñoz
+    given-names: Ana Sofía Calle
+  - family-names: Shekar
+    given-names: Danush
+  - family-names: Dickinson
+    given-names: Jennet
+  - family-names: Di Guglielmo
+    given-names: Giuseppe
+  - family-names: Gray
+    given-names: Lindsey
+  - family-names: Liu
+    given-names: Mia
+  - family-names: Mills
+    given-names: Corrinne
+  - family-names: Neubauer
+    given-names: Mark S.
+  - family-names: Abadjiev
+    given-names: Daniel
+  - family-names: Berry
+    given-names: Doug
+  - family-names: DiPetrillo
+    given-names: Karri
+  - family-names: Fahim
+    given-names: Farah
+  - family-names: Gandrakota
+    given-names: Abhijith
+  - family-names: Gupta
+    given-names: Harshul
+  - family-names: Hirschauer
+    given-names: James
+  - family-names: Howard
+    given-names: Eliza
+  - family-names: Lipton
+    given-names: Ron
+  - family-names: Maksimovic
+    given-names: Petar
+  - family-names: Manganelli
+    given-names: Nick
+  - family-names: Parpillon
+    given-names: Benjamin
+  - family-names: Pearkes
+    given-names: Jannicke
+  - family-names: Silvestre
+    given-names: Ricardo
+  - family-names: Swartz
+    given-names: Morris
+  - family-names: Syal
+    given-names: Chinar
+  - family-names: Tran
+    given-names: Nhan
+  - family-names: Trivedi
+    given-names: Amit
+  - family-names: Ulmer
+    given-names: Keith
+  - family-names: Wadud
+    given-names: Mohammad Abrar
+  - family-names: Weiss
+    given-names: Benjamin
+  - family-names: You
+    given-names: Eric
+  year: 2026
+  doi: 10.48550/arXiv.2602.15946
+  url: https://doi.org/10.48550/arXiv.2602.15946
+- type: data
+  title: Smart pixel dataset
+  authors:
+  - name: Morris Swartz
+  - name: Jennet Dickinson
+  year: 2024
+  doi: 10.5281/zenodo.10783560
+  publisher:
+    name: Zenodo
+  version: '3'
+  url: https://doi.org/10.5281/zenodo.10783560
+- type: data
+  title: Smartpixels 16x16 datasets
+  authors:
+  - family-names: Shekar
+    given-names: Danush
+  - family-names: Swartz
+    given-names: Morris
+  - family-names: Dickinson
+    given-names: Jennet
+  - family-names: Wadud
+    given-names: Mohammad Abrar
+  year: 2026
+  doi: 10.5281/zenodo.18472791
+  publisher:
+    name: Zenodo
+  version: '1'
+  url: https://doi.org/10.5281/zenodo.18472791

@@ -3,8 +3,7 @@ benchmark_name: smartpixels-regression
 scored_date: '2026-11-10'
 notes: 'Scored 2026-11-10 (draft, before publication). Caveats: (1) the repository and reference weights are not public yet,
   so code_available, publicly_available and baseline_open are false until they are. (2) The reference run is still in progress
-  (regression reference, HiPerGator jobs 50657941-46); metrics_evaluated flips when its leaderboard is committed. (3) No code
-  license is chosen yet. (4) paper_exists counts the papers that define the task, data and reference models; no paper describes
+  (regression reference, HiPerGator jobs 50657941-46); metrics_evaluated flips when its leaderboard is committed. (3) paper_exists counts the papers that define the task, data and reference models; no paper describes
   this benchmark package itself.'
 software_environment:
 - id: code_available

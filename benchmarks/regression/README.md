@@ -141,4 +141,4 @@ and the four configurations.
 [arXiv:2602.15946](https://arxiv.org/abs/2602.15946); dataset
 [10.5281/zenodo.18472791](https://doi.org/10.5281/zenodo.18472791).
 
-**License.** Dataset: CC-BY-4.0. Code: see the repository [README](../../README.md#license).
+**License.** Dataset: CC-BY-4.0. Code: Apache-2.0 ([LICENSE](../../LICENSE)).

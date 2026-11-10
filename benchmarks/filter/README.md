@@ -139,4 +139,4 @@ and the angle sets the cluster's length along y and its charge-collection time p
 learning", [arXiv:2310.02474](https://arxiv.org/abs/2310.02474); dataset
 [10.5281/zenodo.10783560](https://doi.org/10.5281/zenodo.10783560).
 
-**License.** Dataset: CC-BY-4.0. Code: see the repository [README](../../README.md#license).
+**License.** Dataset: CC-BY-4.0. Code: Apache-2.0 ([LICENSE](../../LICENSE)).

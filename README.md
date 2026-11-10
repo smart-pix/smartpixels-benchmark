@@ -31,7 +31,8 @@ SPB_MACHINE=hipergator bash slurm/submit.sh -A <group> filter|regression
 
 Pipeline, identical for both tasks: `fetch_data → [filter cache] → train → predict → scripts/score_all.sh <task>`
 (truth, metrics, `LEADERBOARD.md`, Codabench zips). A submission is a predictions CSV per test split (plus a
-descriptor for the asic track) dropped into `$SPB_RESULTS/<task>/<split>/` before `score_all.sh`.
+descriptor for the asic track) dropped into `$SPB_RESULTS/<task>/<split>/` before `score_all.sh`
+([SUBMISSION.md](SUBMISSION.md)).
 
 ## Layout
 
@@ -42,7 +43,10 @@ slurm/                  env.sh, stack.sh, setup.sh, submit.sh, profiles/, jobs/
 data/SCHEMA.md          every field, ground truth, forbidden inputs, prediction and descriptor formats
 docs/VALIDATION.md      how the reference solutions were checked, and every departure from paper and upstream
 benchmarks/<task>/      benchmark card, rubric.yaml, SCORE_REPORT.md
+codabench/              Codabench bundle builder and per-task bundle sources
+weights/MANIFEST.json   reference checkpoints with sha256 (scripts/fetch_weights.py)
 tests/                  unit and pipeline tests on real fixture clusters
+SUBMISSION.md           how to submit a model and what to report with it
 ```
 
 Some validation uses CMS-internal data (the filter paper's simulation and preprocessed inputs); it is available
@@ -50,5 +54,5 @@ to CMS members on request from the authors, and only aggregate numbers derived f
 
 ## License
 
-Datasets: CC-BY-4.0 (Zenodo 10783560, 18472791). Code: not yet licensed; the owners will choose one before
-publication.
+Code: Apache-2.0 ([LICENSE](LICENSE)). Datasets: CC-BY-4.0 (Zenodo 10783560, 18472791). To cite, see
+[CITATION.cff](CITATION.cff).
