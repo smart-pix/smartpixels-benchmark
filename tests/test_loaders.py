@@ -21,7 +21,7 @@ def test_filter_labels_and_recon(fixture_data):
     df = fd.labels(files, sorted(files))
     assert df["sample_id"].is_unique
     assert df["sample_id"].iloc[0] == f"{sorted(files)[0]}:0"
-    assert sorted(df["cls"].value_counts().tolist()) == [6, 6, 6]
+    assert sorted(df["cls"].value_counts().tolist()) == [6, 6, 12]
     px = fd.recon(files, df, [0, ff.PROFILE_SLICE])
     assert px.shape == (len(df), 2, 13, 21)
     raw = pd.read_parquet(files[df.file[4]][1]).iloc[df.row[4]]

@@ -30,14 +30,18 @@ def _frame(counts):
     return pd.DataFrame({"cls": cls, "sample_id": [f"f:{i}" for i in range(len(cls))]})
 
 
-def test_equal_class_subsample():
-    df = _frame([50, 7, 12])
-    a = fd.equal_class_subsample(df, seed=3)
-    assert a["cls"].value_counts().to_dict() == {0: 7, 1: 7, 2: 7}
+def test_balanced_subsample_is_2_1_1_with_equal_charges():
+    # 40 negative and 10 positive high-pT; the 7-cluster low-pT class sets the per-category count.
+    df = _frame([50, 7, 12]).assign(pt=0.1)
+    df.loc[df.cls == 0, "pt"] = np.r_[np.full(40, -1.0), np.full(10, 1.0)]
+    df.loc[df.cls == 1, "pt"] = -0.1
+    a = fd.balanced_subsample(df, seed=3)
+    assert a["cls"].value_counts().to_dict() == {0: 14, 1: 7, 2: 7}
+    assert ((a.cls == 0) & (a.pt < 0)).sum() == 7 and ((a.cls == 0) & (a.pt > 0)).sum() == 7
     assert a["sample_id"].is_unique and set(a["sample_id"]) <= set(df["sample_id"])
-    assert set(df.loc[df.cls == 1, "sample_id"]) <= set(a["sample_id"])  # smallest class kept whole
-    assert a.equals(fd.equal_class_subsample(df, seed=3))
-    assert not a.equals(fd.equal_class_subsample(df, seed=4))
+    assert set(df.loc[df.cls == 1, "sample_id"]) <= set(a["sample_id"])  # smallest category kept whole
+    assert a.equals(fd.balanced_subsample(df, seed=3))
+    assert not a.equals(fd.balanced_subsample(df, seed=4))
 
 
 @pytest.mark.parametrize("n", [10, 11, 99])

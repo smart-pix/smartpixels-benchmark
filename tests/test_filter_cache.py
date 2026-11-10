@@ -8,7 +8,8 @@ def test_cache_rows_match_direct_features(fixture_data, tmp_path):
     files = fd.files(fixture_data)
     frames = cache.split_frames(files)
     assert set(frames["train"].file).isdisjoint(frames["test"].file)
-    assert np.bincount(frames["train"].cls).tolist() == [4, 4, 4]
+    assert np.bincount(frames["train"].cls).tolist() == [8, 4, 4]
+    assert sorted(fd.category(frames["train"]).tolist()) == [0] * 4 + [1] * 4 + [2] * 4 + [3] * 4
     for split, df in frames.items():
         a = cache.load(split, tmp_path)
         assert a["sample_id"].tolist() == df["sample_id"].tolist()
@@ -21,9 +22,9 @@ def test_cache_rows_match_direct_features(fixture_data, tmp_path):
         assert a["y0_6bit"].tolist() == ff.y0_6bit(df["y-local"]).tolist()
 
 
-def test_cache_train_is_equal_class(fixture_data, monkeypatch):
+def test_cache_train_is_balanced(fixture_data, monkeypatch):
     labels = fd.labels
     monkeypatch.setattr(cache.fd, "labels", lambda f, s: labels(f, s).iloc[1:].reset_index(drop=True))
     frames = cache.split_frames(fd.files(fixture_data))
-    assert np.bincount(frames["train"].cls).tolist() == [3, 3, 3]
-    assert len(frames["test"]) == 5
+    assert np.bincount(frames["train"].cls).tolist() == [6, 3, 3]
+    assert len(frames["test"]) == 7

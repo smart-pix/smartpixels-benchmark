@@ -43,7 +43,7 @@ def featurize(files: dict, df) -> dict:
 
 def split_frames(files: dict) -> dict:
     sp = fd.splits(sorted(files))
-    train = fd.equal_class_subsample(fd.labels(files, sp["train"]), DATA_SEED)
+    train = fd.balanced_subsample(fd.labels(files, sp["train"]), DATA_SEED)
     return {"train": train, "test": fd.labels(files, sp["test"])}
 
 

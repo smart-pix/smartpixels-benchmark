@@ -1,6 +1,6 @@
 """Rebuild the fixtures from a full Zenodo download: `python make_fixtures.py <data_dir> <out_dir>`.
 
-Keeps the real file stems and row order; picks rows covering every filter class and both sides of
+Keeps the real file stems and row order; picks rows covering every filter charge x pT category and both sides of
 the regression containment cut. Row positions change, so fixture sample_ids differ from the full data.
 """
 
@@ -32,8 +32,9 @@ def copy_rows(pair, rows, out_labels: Path, out_recon: Path) -> None:
 def main(src: Path, out: Path) -> None:
     files = fd.files(src)
     for stem in sorted(files)[:3]:
-        cls = fd.class_label(pd.read_parquet(files[stem][0], columns=["pt"])["pt"])
-        rows = np.sort(np.concatenate([np.flatnonzero(cls == c)[:2] for c in range(3)]))
+        lab = pd.read_parquet(files[stem][0], columns=["pt"])
+        cat = fd.category(lab.assign(cls=fd.class_label(lab["pt"])))
+        rows = np.sort(np.concatenate([np.flatnonzero(cat == c)[:2] for c in range(4)]))
         o = out / fd.RECORD
         copy_rows(files[stem], rows, o / "labels/labels" / files[stem][0].name, o / "recon3D/recon3D" / files[stem][1].name)
     (out / fd.RECORD / "labels/labels/._labels_d0.parquet").write_bytes(b"\x00\x05\x16\x07AppleDouble")

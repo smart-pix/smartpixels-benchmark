@@ -41,12 +41,20 @@ def labels(files_: dict, stems) -> pd.DataFrame:
     return df
 
 
-def equal_class_subsample(df: pd.DataFrame, seed: int) -> pd.DataFrame:
-    """Every class subsampled without replacement to the smallest class's count (paper §3.1)."""
+def category(df: pd.DataFrame) -> np.ndarray:
+    """Charge x pT category: 0 = pT < -0.2, 1 and 2 = the low-pT classes, 3 = pT > 0.2."""
+    return np.where((df["cls"] == 0) & (df["pt"] > 0), 3, df["cls"])
+
+
+def balanced_subsample(df: pd.DataFrame, seed: int) -> pd.DataFrame:
+    """Every charge x pT category subsampled without replacement to the smallest one's count, so classes 0:1:2 = 2:1:1.
+
+    Paper §3.1 "same number of clusters for each pT class" with its 800k = 4 x 203,800 total and its own train set.
+    """
     rng = np.random.default_rng(seed)
-    n = df["cls"].value_counts().min()
-    keep = np.concatenate([rng.choice(np.flatnonzero(df["cls"].to_numpy() == c), n, replace=False)
-                           for c in sorted(df["cls"].unique())])
+    cat = category(df)
+    n = np.bincount(cat, minlength=4).min()
+    keep = np.concatenate([rng.choice(np.flatnonzero(cat == c), n, replace=False) for c in range(4)])
     return df.iloc[np.sort(keep)].reset_index(drop=True)
 
 
