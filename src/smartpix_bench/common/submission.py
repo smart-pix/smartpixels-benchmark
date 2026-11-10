@@ -23,15 +23,16 @@ class SubmissionError(ValueError):
 
 
 def select_scored(pred: pd.DataFrame, ids: pd.Series, columns: list[str], check, label: str) -> pd.DataFrame:
-    cols = ["sample_id", *columns]
-    if missing := [c for c in cols if c not in pred.columns]:
-        raise SubmissionError(f"{label}: missing columns {missing}")
+    if "sample_id" not in pred.columns:
+        raise SubmissionError(f"{label}: missing column sample_id")
+    # Which columns are required is the task's check_values decision; optional ones are kept when present.
+    cols = ["sample_id", *[c for c in columns if c in pred.columns]]
     if pred["sample_id"].duplicated().any():
         raise SubmissionError(f"{label}: duplicate sample_id")
     pred = pred.set_index("sample_id")
     if n := int((~ids.isin(pred.index)).sum()):
         raise SubmissionError(f"{label}: no prediction for {n} of {len(ids)} scored samples")
-    out = pred.loc[ids.to_numpy(), columns]
+    out = pred.loc[ids.to_numpy(), cols[1:]]
     if err := check(out):
         raise SubmissionError(f"{label}: {err}")
     return out.reset_index()[cols]

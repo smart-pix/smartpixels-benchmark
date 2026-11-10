@@ -1,0 +1,74 @@
+# Results submission: participants upload predictions; build_bundle.py adds reference_data/, solution/,
+# starting_kit/*_sample_ids.csv, starting_kit/sample_submission.zip and scoring_program/{metrics.py, reference.json}.
+# Before upload: add logo.png, replace the placeholder terms and set the phase start date (codabench/README.md).
+version: 2
+title: "Smart Pixels filter: on-sensor low-pT cluster rejection"
+description: Classify silicon-pixel clusters as high- or low-pT with a network small enough for the pixel ASIC; ranked by background rejection at 93.3% signal efficiency.
+image: logo.png
+registration_auto_approve: True
+docker_image: codalab/codalab-legacy:py312
+
+terms: pages/terms_and_conditions.md
+pages:
+  - title: Overview
+    file: pages/overview.md
+  - title: Evaluation
+    file: pages/evaluation.md
+  - title: Data
+    file: pages/data.md
+
+tasks:
+  - index: 0
+    name: Filter test set
+    description: Score predictions_test.csv (and descriptor.json for the asic track) against the test-set truth.
+    reference_data: reference_data/
+    scoring_program: scoring_program/
+
+solutions:
+  - index: 0
+    tasks:
+      - 0
+    path: solution/
+
+phases:
+  - index: 0
+    name: Open Benchmark
+    description: Open, ongoing benchmark on the public test set.
+    start: 1-1-2027
+    max_submissions_per_day: 5
+    execution_time_limit: 600
+    tasks:
+      - 0
+    starting_kit: starting_kit
+
+# One table for both tracks; the asic column is 1 for a submission whose descriptor passes the asic-track checks.
+leaderboards:
+  - title: Results
+    key: main
+    submission_rule: "Add_And_Delete_Multiple"
+    columns:
+      - title: Background rejection @ eff 0.933
+        key: background_rejection_at_eff
+        index: 0
+        sorting: desc
+        precision: 4
+      - title: Background rejection (argmax)
+        key: background_rejection
+        index: 1
+        sorting: desc
+        precision: 4
+      - title: Signal efficiency (argmax)
+        key: signal_efficiency
+        index: 2
+        sorting: desc
+        precision: 4
+      - title: Data reduction (argmax)
+        key: data_reduction
+        index: 3
+        sorting: desc
+        precision: 4
+      - title: ASIC track
+        key: asic
+        index: 4
+        sorting: desc
+        precision: 0

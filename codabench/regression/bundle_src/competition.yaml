@@ -1,0 +1,104 @@
+# Results submission: participants upload predictions; build_bundle.py adds reference_data/, solution/,
+# starting_kit/*_sample_ids.csv, starting_kit/sample_submission.zip and scoring_program/{metrics.py, reference.json}.
+# Before upload: add logo.png, replace the placeholder terms and set the phase start date (codabench/README.md).
+version: 2
+title: "Smart Pixels regression: on-chip hit position and angle"
+description: Estimate a pixel cluster's crossing position and angles, with uncertainties, using a network small enough for the readout chip; ranked by I68 resolution relative to the reference.
+image: logo.png
+registration_auto_approve: True
+docker_image: codalab/codalab-legacy:py312
+
+terms: pages/terms_and_conditions.md
+pages:
+  - title: Overview
+    file: pages/overview.md
+  - title: Evaluation
+    file: pages/evaluation.md
+  - title: Data
+    file: pages/data.md
+
+tasks:
+  - index: 0
+    name: Regression test sets 3s and 2s
+    description: Score predictions_3s.csv and predictions_2s.csv (and descriptor.json for the asic track) against the test-set truth.
+    reference_data: reference_data/
+    scoring_program: scoring_program/
+
+solutions:
+  - index: 0
+    tasks:
+      - 0
+    path: solution/
+
+phases:
+  - index: 0
+    name: Open Benchmark
+    description: Open, ongoing benchmark on the public 3s and 2s test sets.
+    start: 1-1-2027
+    max_submissions_per_day: 5
+    execution_time_limit: 1200
+    tasks:
+      - 0
+    starting_kit: starting_kit
+
+# Ranked on the 3s set; one table for both tracks, the asic column is 1 for a descriptor that passes the asic checks.
+leaderboards:
+  - title: Results
+    key: main
+    submission_rule: "Add_And_Delete_Multiple"
+    columns:
+      - title: 3s rank_i68
+        key: 3s_rank_i68
+        index: 0
+        sorting: asc
+        precision: 4
+      - title: 2s rank_i68
+        key: 2s_rank_i68
+        index: 1
+        sorting: asc
+        precision: 4
+      - title: 3s I68 x (µm)
+        key: 3s_I68_x
+        index: 2
+        sorting: asc
+        precision: 4
+      - title: 3s I68 y (µm)
+        key: 3s_I68_y
+        index: 3
+        sorting: asc
+        precision: 4
+      - title: 3s I68 beta (°)
+        key: 3s_I68_beta
+        index: 4
+        sorting: asc
+        precision: 4
+      - title: 3s I68 alpha (°)
+        key: 3s_I68_alpha
+        index: 5
+        sorting: asc
+        precision: 4
+      - title: 2s I68 x (µm)
+        key: 2s_I68_x
+        index: 6
+        sorting: asc
+        precision: 4
+      - title: 2s I68 y (µm)
+        key: 2s_I68_y
+        index: 7
+        sorting: asc
+        precision: 4
+      - title: 2s I68 beta (°)
+        key: 2s_I68_beta
+        index: 8
+        sorting: asc
+        precision: 4
+      - title: 2s I68 alpha (°)
+        key: 2s_I68_alpha
+        index: 9
+        sorting: asc
+        precision: 4
+      - title: ASIC track
+        key: asic
+        index: 10
+        sorting: desc
+        precision: 0

@@ -158,3 +158,8 @@ def test_truth_and_submission_pipeline(fixture_data, tmp_path):
     assert {f.name for f in (tmp_path / "zips").iterdir()} == {f"{n}_submission.zip" for n in baselines.NAMES}
     pd.read_csv(res / "3s" / "predictions_Geometric.csv").iloc[1:].to_csv(res / "3s" / "predictions_Geometric.csv", index=False)
     assert submission.package("regression", res, fixture_data, tmp_path / "zips2") == 1
+    for split in truth.SPLITS:
+        f = res / split / "predictions_LocalReco.csv"
+        pd.read_csv(f).drop(columns="cotBeta").to_csv(f, index=False)
+    assert submission.package("regression", res, fixture_data, tmp_path / "zips3") == 2
+    assert not (tmp_path / "zips3" / "LocalReco_submission.zip").exists()
