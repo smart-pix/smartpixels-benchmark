@@ -5,7 +5,7 @@ import pytest
 
 tf = pytest.importorskip("tensorflow")
 
-from smartpix_bench.common.features import digitize  # noqa: E402
+from smartpix_bench.common.features import add_noise, digitize  # noqa: E402
 from smartpix_bench.regression import data as rd  # noqa: E402
 from smartpix_bench.regression import losses, models, predict, score, train  # noqa: E402
 from smartpix_bench.regression.softquantize import AnnealK, SoftQuantize, k_at  # noqa: E402
@@ -131,16 +131,23 @@ def test_two_stage_train_predict(fixture_data, tmp_path, monkeypatch):
     w = tmp_path / "w"
     fit, seen = train.fit, {}
 
-    def spy(m, x_tr, *a, **k):
+    def spy(m, x_tr, y_tr, x_va, *a, **k):
         seen[m.name, len(m.layers)] = np.unique(x_tr)
-        return fit(m, x_tr, *a, **k)
+        seen["x_va"] = x_va
+        return fit(m, x_tr, y_tr, x_va, *a, **k)
     monkeypatch.setattr(train, "fit", spy)
     for config in ("sq", "c3", "c4", "c1"):
         seen.clear()
         val = train.run("Full_MLP", config, 0, w, epochs=2, data_dir=fixture_data)
         assert np.isfinite(val["I68_x"])
+        x_va = seen.pop("x_va")
         (vals,) = seen.values()
         assert set(vals) <= {0, 1, 2, 3} if config in ("c3", "c4") else len(vals) > 4
+        if config == "sq":
+            clean = train.load_train_val([0, 19], fixture_data)[1][0]
+            want = add_noise(clean, np.random.default_rng(train.VAL_NOISE_SEED), 80)
+            np.testing.assert_allclose(x_va, want, rtol=1e-6)
+            assert np.std(x_va - clean) == pytest.approx(80, rel=0.1)
     meta = predict.load_meta(w / "Full_MLP_c4_s0")
     sq = json.loads((w / "Full_MLP_sq_s0.meta.json").read_text())
     assert meta["thresholds"] == sq["thresholds"] and np.all(np.diff(sq["thresholds"]) > 0)

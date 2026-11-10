@@ -28,7 +28,8 @@ OUTPUT_COLUMNS = [*rd.TARGETS, *[f"sigma_{t}" for t in rd.TARGETS]]
 PRIMARY = "rank_i68"
 METRICS = [PRIMARY, *[f"I68_{v}" for v in VARIABLES], *[f"mean_{v}" for v in VARIABLES]]
 HIGHER_IS_BETTER = False
-AUXILIARY = {"Barycenter", "LocalReco", "Geometric"}
+AUXILIARY = {"Barycenter": "Barycenter", "LocalReco": "LocalReco (optimistic)", "Geometric": "Geometric (optimistic)",
+             "GeometricCorrected": "Geometric + correction (optimistic)"}
 REFERENCE = Path(__file__).with_name("i68_reference.json")
 REFERENCE_MODEL = "Full_MLP_c4"
 ASIC = {"max_params": 2734, "slices": [0, 19], "n_thresholds": 3, "max_bits": 8}

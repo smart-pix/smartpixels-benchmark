@@ -45,7 +45,8 @@ def build(results: Path, metrics: list[str], primary: str, auxiliary: set, title
                     continue
                 vals = {k: [m["metrics"][k] for m in ms] for k in metrics}
                 cov = ms[0]["coverage"]
-                name = f"*{model} (auxiliary)*" if model in auxiliary else model
+                label = auxiliary[model] if isinstance(auxiliary, dict) and model in auxiliary else model
+                name = f"*{label} (auxiliary)*" if model in auxiliary else model
                 rows.append((np.mean(vals[primary]), f"| {name} | {len(ms)} | {cov['n_scored']}/{cov['n_truth']} | "
                              + " | ".join(cell(vals[k]) for k in metrics) + " |"))
             if rows:

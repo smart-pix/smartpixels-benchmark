@@ -99,8 +99,8 @@ def test_report_ranks_lower_first(tmp_path):
                                                           "metrics": {score.PRIMARY: i68}}))
     md = report.build(tmp_path, [score.PRIMARY], score.PRIMARY, set(), "t", score.HIGHER_IS_BETTER)
     assert md.index("| B |") < md.index("| A |")
-    md = report.build(tmp_path, [score.PRIMARY], score.PRIMARY, set(), "t", True)
-    assert md.index("| A |") < md.index("| B |")
+    md = report.build(tmp_path, [score.PRIMARY], score.PRIMARY, {"A": "A (optimistic)"}, "t", True)
+    assert md.index("| *A (optimistic) (auxiliary)* |") < md.index("| B |")
 
 
 def cluster(x_charge: dict, y_charge: dict):
@@ -128,11 +128,12 @@ def test_baselines_on_a_synthetic_cluster():
     y_f, y_l = -4 * 12.5 + 6.25, -2 * 12.5 - 6.25
     assert out["LocalReco"]["y-midplane"][0] == pytest.approx(
         (y_f + y_l) / 2 + (2 - 1) / 3 * (abs(100 * 0.2 + dy) - (y_l - y_f)) / 2 + dy / 2)
-    assert out["Geometric"]["cotAlpha"][0] == pytest.approx(-0.5)
-    assert out["Geometric"]["cotBeta"][0] == pytest.approx(2 * 12.5 / 100 - 0.3046)
+    assert out["Geometric"]["cotAlpha"][0] == out["GeometricCorrected"]["cotAlpha"][0] == pytest.approx(-0.5)
+    assert out["GeometricCorrected"]["cotBeta"][0] == pytest.approx(2 * 12.5 / 100 - 0.3046)
     for cot_b, sign in ((-0.2, 1), (-0.5, -1)):
-        got = baselines.predict(a, lab.assign(cotBeta=cot_b))["Geometric"]["cotBeta"][0]
-        assert got == pytest.approx(sign * 2 * 12.5 / 100 - 0.3046)
+        got = baselines.predict(a, lab.assign(cotBeta=cot_b))
+        assert got["GeometricCorrected"]["cotBeta"][0] == pytest.approx(sign * 2 * 12.5 / 100 - 0.3046)
+        assert got["Geometric"]["cotBeta"][0] == pytest.approx(-2 * 12.5 / 100)
     assert out["Barycenter"]["cotAlpha"].isna().all() and out["Geometric"]["x-midplane"].isna().all()
 
 
@@ -154,6 +155,6 @@ def test_truth_and_submission_pipeline(fixture_data, tmp_path):
         p = pd.read_csv(res / split / "predictions_LocalReco.csv", dtype={"sample_id": str})
         assert p["sample_id"].tolist() == t["sample_id"].tolist()
     assert submission.package("regression", res, fixture_data, tmp_path / "zips") == 0
-    assert sorted(f.name for f in (tmp_path / "zips").iterdir()) == [f"{n}_submission.zip" for n in sorted(baselines.NAMES)]
+    assert {f.name for f in (tmp_path / "zips").iterdir()} == {f"{n}_submission.zip" for n in baselines.NAMES}
     pd.read_csv(res / "3s" / "predictions_Geometric.csv").iloc[1:].to_csv(res / "3s" / "predictions_Geometric.csv", index=False)
     assert submission.package("regression", res, fixture_data, tmp_path / "zips2") == 1

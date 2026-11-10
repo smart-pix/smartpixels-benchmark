@@ -2,8 +2,9 @@
 
     python -m smartpix_bench.regression.baselines --split 3s --out RESULTS/regression/3s
 
-Barycenter (Eq 10) and LocalReco (Eqs 11-12) predict x, y; Geometric (Eqs 13-14) predicts cotAlpha, cotBeta.
-LocalReco and Geometric use the true angles / signs ("optimistic"), as the paper does. Pixel i of an axis
+Barycenter (Eq 10) and LocalReco (Eqs 11-12) predict x, y; Geometric (Eq 13 and its uncorrected β analogue) and
+GeometricCorrected (Eq 13, Eq 14) predict cotAlpha, cotBeta. LocalReco and Geometric use the true angles / signs
+("optimistic"), as the paper does (§3.4, Fig 4). Pixel i of an axis
 has its centre at (i - 7) * pitch (upstream summary-plots/local-pixel-reco.ipynb). Eq 14 as printed adds a
 length to |cotβ|; this implements cotβ = s (w_y - 1) p_y / T - tanΘ_L with s = sign(cotβ_true + tanΘ_L),
 the width relation Eq 12 uses.
@@ -22,7 +23,7 @@ from smartpix_bench.regression.predict import OUTPUT_COLUMNS
 
 PITCH_X, PITCH_Y, THICKNESS, TAN_LORENTZ = 50.0, 12.5, 100.0, 0.3046
 DY = THICKNESS * TAN_LORENTZ
-NAMES = ("Barycenter", "LocalReco", "Geometric")
+NAMES = ("Barycenter", "LocalReco", "Geometric", "GeometricCorrected")
 
 
 def profiles(adc: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -68,12 +69,14 @@ def size(prof):
 def predict(adc: np.ndarray, lab: pd.DataFrame) -> dict[str, pd.DataFrame]:
     px, py = profiles(adc)
     cot_a, cot_b = lab["cotAlpha"].to_numpy(), lab["cotBeta"].to_numpy()
+    cot_a_geo = np.sign(cot_a) * (size(px) - 1) * PITCH_X / THICKNESS
     cols = {
         "Barycenter": {"x-midplane": barycenter(px, PITCH_X), "y-midplane": barycenter(py, PITCH_Y) + DY / 2},
         "LocalReco": {"x-midplane": local_reco(px, PITCH_X, np.abs(THICKNESS * cot_a)),
                       "y-midplane": local_reco(py, PITCH_Y, np.abs(THICKNESS * cot_b + DY)) + DY / 2},
-        "Geometric": {"cotAlpha": np.sign(cot_a) * (size(px) - 1) * PITCH_X / THICKNESS,
-                      "cotBeta": np.sign(cot_b + TAN_LORENTZ) * (size(py) - 1) * PITCH_Y / THICKNESS - TAN_LORENTZ},
+        "Geometric": {"cotAlpha": cot_a_geo, "cotBeta": np.sign(cot_b) * (size(py) - 1) * PITCH_Y / THICKNESS},
+        "GeometricCorrected": {"cotAlpha": cot_a_geo,
+                               "cotBeta": np.sign(cot_b + TAN_LORENTZ) * (size(py) - 1) * PITCH_Y / THICKNESS - TAN_LORENTZ},
     }
     out = {}
     for name, c in cols.items():

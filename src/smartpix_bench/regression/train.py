@@ -5,7 +5,8 @@
 c1: 20 slices, c2: slices {0, 19}, both full precision. "sq" trains the model behind GaussianNoise(80 e) +
 SoftQuantize (thresholds start at the transformer means, k annealed 1 -> 67) and writes the thresholds at
 its best validation epoch; c3 (float) and c4 (QKeras) then train fresh models on inputs hard-digitized
-(Eq 4) at those thresholds, noise-free. Nadam 1e-3, batch 5000, 1000 epochs, best-validation weights kept.
+(Eq 4) at those thresholds, noise-free. The sq stage validates on one fixed-seed noise draw (reused every epoch), so
+best-validation selection sees the on-chip noise it is meant to be robust to. Nadam 1e-3, batch 5000, 1000 epochs, best-validation weights kept.
 Targets are divided by the per-target 99th percentile |label| of the train split (stored in the meta file).
 """
 
@@ -16,12 +17,13 @@ from pathlib import Path
 import numpy as np
 
 from smartpix_bench.common import io
-from smartpix_bench.common.features import digitize
+from smartpix_bench.common.features import add_noise, digitize
 from smartpix_bench.regression import data as rd
 from smartpix_bench.regression import features as rf
 from smartpix_bench.regression import models, predict, score
 
 EPOCHS, BATCH, LR = 1000, 5000, 1e-3
+VAL_NOISE_SEED = 0
 
 
 def weights_dir() -> Path:
@@ -62,6 +64,7 @@ def run(model: str, config: str, seed: int, out: Path, epochs: int = EPOCHS, dat
     if config == "sq":
         m = models.build(model, softquantize=rf.TRANSFORMER_THRESHOLDS)
         sq = m.get_layer("softquantize")
+        x_va = add_noise(x_va, np.random.default_rng(VAL_NOISE_SEED), rf.NOISE_SIGMA)
         hist = fit(m, x_tr, y_tr, x_va, y_va, head, seed, epochs, Path(f"{stem}.weights.h5"), [AnnealK(sq, epochs)])
         meta["thresholds"] = sq.thresholds().numpy().tolist()
     else:
