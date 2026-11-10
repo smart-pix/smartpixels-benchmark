@@ -39,6 +39,17 @@ generated track and is forbidden as an input.
 Train: every class is subsampled (seeded) to the smallest class's train count; validation is the
 last 20 % of the train rows after a seeded shuffle. Test: all rows of the test files.
 
+**Predictions:** `predictions_<name>.csv` with `sample_id,pred,p0,p1,p2` for every test cluster: pred ∈ {0, 1, 2}
+is the class decision, p0–p2 ∈ [0, 1] the class probabilities. A cluster without a prediction is scored as
+class 0 with p0 = 1 (read out) and counted in the coverage block.
+
+**Metrics:** the primary metric is the reweighted background rejection when clusters with p0 < cut are rejected
+and the cut gives a reweighted signal efficiency of 0.933 (`score.rejection_at_efficiency`); signal efficiency,
+background rejection and data reduction of the `pred` decisions are also reported.
+**Descriptor:** `descriptor_<name>.json` with `track` (`asic` or `open`) and `n_params`; the asic track
+also declares `adc_thresholds` (must be [400, 1600, 2400]) and `y0_bits` (must be 6), and needs
+n_params ≤ 2819.
+
 ## Regression — Zenodo 18472791 (version 1)
 
 Layout: `dataset_<set>_16x16_50x12P5x100/dataset_<set>_16x16_50x12P5x100/` for set ∈ {3sExtended, 3s, 2s};
