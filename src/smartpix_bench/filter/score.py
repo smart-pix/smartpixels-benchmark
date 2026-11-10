@@ -26,6 +26,7 @@ OUTPUT_COLUMNS = ["pred", "p0", "p1", "p2"]
 TARGET_EFFICIENCY = 0.933  # M2's Table 1 signal efficiency
 PRIMARY = "background_rejection_at_eff"
 METRICS = [PRIMARY, "background_rejection", "signal_efficiency", "data_reduction"]
+HIGHER_IS_BETTER = True
 ASIC = {"max_params": 2819, "adc_thresholds": [400, 1600, 2400], "y0_bits": 6}
 REFERENCE = Path(__file__).with_name("pt_reference.json")
 

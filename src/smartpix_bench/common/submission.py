@@ -69,9 +69,9 @@ def package(task: str, results: Path, cache_dir: Path | None, out_dir: Path) -> 
 
 def main(argv=None) -> None:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--task", required=True, choices=["filter"])
+    p.add_argument("--task", required=True, choices=["filter", "regression"])
     p.add_argument("--results", type=Path, required=True)
-    p.add_argument("--cache-dir", type=Path, default=None)
+    p.add_argument("--cache-dir", type=Path, default=None, help="filter: feature cache; regression: data dir")
     p.add_argument("--out", type=Path, help="default: <results>/codabench")
     a = p.parse_args(argv)
     sys.exit(1 if package(a.task, a.results, a.cache_dir, a.out or a.results / "codabench") else 0)

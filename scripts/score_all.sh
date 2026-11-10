@@ -1,10 +1,11 @@
 #!/bin/bash
 # Pipeline contract, last step: truth -> score every predictions_*.csv -> LEADERBOARD.md -> Codabench zips.
-# Needs the package importable, $SPB_RESULTS, and $SPB_CACHE_DIR (or the default ./cache).
+# Usage: score_all.sh [filter|regression]. Needs the package importable, $SPB_RESULTS, and
+# $SPB_CACHE_DIR (filter) or $SPB_DATA_DIR (regression), else their defaults.
 set -euo pipefail
-task=filter
+task=${1:-filter}
 res="$SPB_RESULTS/$task"
-for split in test; do
+for split in $(python -c "from smartpix_bench.$task.truth import SPLITS; print(*SPLITS)"); do
     dir="$res/$split"
     mkdir -p "$dir"
     python -m smartpix_bench.$task.truth --split "$split" --out "$dir/truth.csv"
