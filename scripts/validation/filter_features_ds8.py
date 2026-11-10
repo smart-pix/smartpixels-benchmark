@@ -4,7 +4,7 @@
 
 Rows are matched on (round(y-local, 5), round(pt, 5)), first occurrence in dataset8. Compares
 slice-19 y-profile (dec6 FullPrecisionInput*), 2-bit y-profile and 6-bit y0 (jan2 Quantized*), and
-slices 0-7 profiles (dec8 InputTrain/Test_noYlocal). Prints aggregate counts only.
+slices 0-7 profiles (dec8 Input{Train,Test}Set). Prints aggregate counts only.
 """
 
 import argparse
@@ -64,11 +64,23 @@ def main() -> None:
              "y_below_-8": int((rows["y-local"] < -8).sum()),
              "y0_6bit_mismatch_outside_y_below_-8": int(((feats["y0_6bit"] != q["y-local"][hit].to_numpy()) & (rows["y-local"].to_numpy() >= -8)).sum()),
              "y_below_-8_upstream_63_ours_0": int(((q["y-local"][hit].to_numpy() == 63) & (feats["y0_6bit"] == 0) & (rows["y-local"].to_numpy() < -8)).sum())}
-        if a.dec8:
-            ts = pd.read_csv(a.dec8 / f"Input{split}_noYlocal.csv").to_numpy()[hit]
-            r["ts_profiles"] = compare(feats["prof_ts"], ts, coll)
         out[split.lower()] = r
         print(json.dumps({split: r}), flush=True)
+    for split in ("Train", "Test") if a.dec8 else ():
+        # dec8 has its own row order: y-local then 8 x 13 slice profiles, matched on its own (y-local, pT).
+        ts = pd.read_csv(a.dec8 / f"Input{split}Set.csv")
+        pk = key(ts["y-local"], pd.read_csv(a.dec8 / f"{split}SetTruePT.csv")["pt"])
+        hit = pk.isin(first.index).to_numpy()
+        rows = lab.iloc[first.loc[pk[hit]].to_numpy()].reset_index(drop=True)
+        rows["cls"] = fd.class_label(rows["pt"])
+        prof = cache.featurize(files, rows)["prof_ts"]
+        coll = pk[hit].isin(set(k[k.duplicated()]) | set(pk[pk.duplicated()])).to_numpy()
+        theirs = ts.drop(columns="y-local").to_numpy()[hit]
+        r = {"paper_rows": len(ts), "unmatched": int((~hit).sum()), "rows_at_colliding_key": int(coll.sum()),
+             "ts_profiles": compare(prof, theirs, coll),
+             "ts_profiles_transposed": compare(np.swapaxes(prof, 1, 2), theirs, coll)}
+        out[f"dec8_{split.lower()}"] = r
+        print(json.dumps({f"dec8_{split}": r}), flush=True)
     print(json.dumps(out, indent=1))
 
 
