@@ -1,0 +1,134 @@
+# MLCommons Science Benchmarks Ontology rubric (arXiv:2511.05614 §III); score with benchmark-builder scripts/score_benchmark.py
+benchmark_name: smartpixels-filter
+scored_date: '2026-11-10'
+notes: 'Scored 2026-11-10 (draft, before publication). Caveats: (1) the repository and reference weights are not public yet,
+  so code_available, publicly_available and baseline_open are false until they are. (2) The reference run is still in progress
+  (2:1:1 filter reference, HiPerGator jobs 50655964-66); metrics_evaluated flips when its leaderboard is committed. (3) No
+  code license is chosen yet. (4) paper_exists counts the papers that define the task, data and reference models; no paper
+  describes this benchmark package itself.'
+software_environment:
+- id: code_available
+  description: The code is available to reproduce the baseline reference solution.
+  met: false
+  evidence: Complete in the repository (src/smartpix_bench, slurm/), but the repository is not published.
+- id: code_complete
+  description: The provided code is complete.
+  met: true
+  evidence: fetch_data -> filter.cache -> filter.train -> filter.predict -> score_all.sh filter covers data to leaderboard
+    and Codabench zips; slurm/submit.sh runs the whole reference.
+- id: code_documented
+  description: The code itself is well documented.
+  met: true
+  evidence: Module docstrings state each step's rule and source; data/SCHEMA.md, docs/HIPERGATOR.md, docs/VALIDATION.md.
+- id: code_runs_unmodified
+  description: The code does not require any modifications to run.
+  met: true
+  evidence: Ran unmodified from a git archive on HiPerGator (filter reference 5faa4ba, jobs 50647290-93; docs/VALIDATION.md
+    §6).
+- id: env_specified
+  description: The environment is either containerized, or environment details and setup instructions are provided.
+  met: true
+  evidence: pyproject.toml + uv.lock pin every package; slurm/setup.sh builds the environment; README quick start.
+problem_specification:
+- id: constraints_provided
+  description: System constraints (power, latency, throughput, etc.) are provided.
+  met: true
+  evidence: 'benchmarks/filter/README.md §1: asic-track parameter, input-precision and bit budget, checked by score/submission;
+    the ASIC''s power/latency/area context.'
+- id: task_clear
+  description: The benchmark task is clear.
+  met: true
+  evidence: benchmarks/filter/README.md §1 Task.
+- id: dataset_format_specified
+  description: The dataset format is clearly specified.
+  met: true
+  evidence: 'data/SCHEMA.md: layout, every field, sample_id rule.'
+- id: inputs_specified
+  description: The task inputs are clearly specified.
+  met: true
+  evidence: benchmarks/filter/README.md §1 Inputs; data/SCHEMA.md valid / forbidden inputs.
+- id: outputs_specified
+  description: The task outputs are clearly specified.
+  met: true
+  evidence: benchmarks/filter/README.md §1 Outputs; data/SCHEMA.md Predictions and Descriptor.
+dataset:
+  fair:
+  - id: findable
+    description: Each instance is uniquely identified and documented (Findable).
+    met: true
+    evidence: DOI 10.5281/zenodo.10783560; sample_id = <recon file stem>:<row>, unique per split (data/SCHEMA.md).
+  - id: accessible
+    description: Access is provided through persistent, open protocols (Accessible).
+    met: true
+    evidence: Public Zenodo record over HTTPS; scripts/fetch_data.py downloads and md5-checks it.
+  - id: interoperable
+    description: Formats and metadata follow community standards (Interoperable).
+    met: true
+    evidence: Apache Parquet with documented columns (data/SCHEMA.md).
+  - id: reusable
+    description: Versioning with associated preprocessing scripts enables full reproducibility (Reusable).
+    met: true
+    evidence: Versioned record (v3), CC-BY-4.0; selection and features in src/smartpix_bench/filter/; revision recorded by
+      fetch_data.py.
+  splits_defined:
+    description: A canonical, non-overlapping train/validation/test split is provided.
+    met: true
+    evidence: 'benchmarks/filter/README.md §2 Splits: file-disjoint, seed 0 (common.io.split_files), tested in tests/test_data_rules.py.'
+performance_metrics:
+  definition_level: 3
+  definition_evidence: 'benchmarks/filter/README.md §3: every metric''s formula and edge cases; implemented in src/smartpix_bench/filter/score.py
+    with unit tests.'
+  quality_level: 2
+  quality_evidence: Rejection at the paper's fixed signal efficiency on the physical pT spectrum, plus the argmax operating
+    point, data reduction and the turn-on curve; hardware cost is bounded by the asic-track constraints rather than measured.
+reference_solution:
+- id: publicly_available
+  description: A reference solution is publicly available.
+  met: false
+  evidence: Code and weights not published.
+- id: well_documented
+  description: The provided reference solution is well documented.
+  met: true
+  evidence: benchmarks/filter/README.md §4; docs/VALIDATION.md.
+- id: requirements_listed
+  description: All hardware and/or software requirements to run the reference solution are listed.
+  met: true
+  evidence: benchmarks/filter/README.md §4 Requirements; docs/HIPERGATOR.md job table with measured resources.
+- id: metrics_evaluated
+  description: All metrics defined as part of the benchmark are evaluated as part of the reference solution.
+  met: false
+  evidence: score_all.sh evaluates every metric, but the reference run (2:1:1 filter reference, HiPerGator jobs 50655964-66)
+    has not finished.
+- id: baseline_open
+  description: The baseline solution/model is openly available for study (architecture, hyperparameters, and training code
+    if a neural network).
+  met: false
+  evidence: Architecture, hyperparameters and training code are in the repository (benchmarks/filter/README.md §4), which
+    is not published.
+documentation:
+- id: task_explained
+  description: The task is explained and well documented.
+  met: true
+  evidence: benchmarks/filter/README.md §1.
+- id: background_explained
+  description: The task and benchmark background (scientific and otherwise) is clearly explained.
+  met: true
+  evidence: benchmarks/filter/README.md §5 Background.
+- id: motivation_explained
+  description: The motivation for the benchmark is clearly explained.
+  met: true
+  evidence: benchmarks/filter/README.md §5 Motivation.
+- id: evaluation_explained
+  description: The evaluation criteria are clearly explained.
+  met: true
+  evidence: benchmarks/filter/README.md §3; tracks in §1.
+- id: paper_exists
+  description: An academic paper about the benchmark exists.
+  met: true
+  evidence: arXiv:2310.02474 (task, data, models M1-M3, quantized M2); arXiv:2406.14860 (ASIC).
+motifs:
+  scientific_motifs:
+  - High-Energy Physics
+  ai_ml_motif: Classification
+  computing_motifs:
+  - Latency Bound

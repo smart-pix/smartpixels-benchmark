@@ -1,4 +1,4 @@
-# Data schema (draft)
+# Data schema
 
 Data are fetched by `scripts/fetch_data.py` into `$SPB_DATA_DIR/<record>/` (default `data/zenodo/`),
 with the Zenodo revision, version and per-file md5 recorded in `<record>/REVISION.json`.
@@ -36,8 +36,9 @@ Label fields (`labels_d<N>.parquet`, ~50k rows per file):
 generated track and is forbidden as an input.
 
 **Selection:** files are split file-disjointly, 20 % test (`common.io.split_files`, seed 0).
-Train: every class is subsampled (seeded) to the smallest class's train count; validation is the
-last 20 % of the train rows after a seeded shuffle. Test: all rows of the test files.
+Train: each (charge × pT) category — pT < −0.2, class 1, class 2, pT > 0.2 — is subsampled (seed 0) to the
+smallest category's train count, so classes 0:1:2 are 2:1:1; validation is the last 20 % of the train rows after
+a seeded shuffle. Test: all rows of the test files (32 of 160 files, 1,599,888 clusters).
 
 **Predictions:** `predictions_<name>.csv` with `sample_id,pred,p0,p1,p2` for every test cluster: pred ∈ {0, 1, 2}
 is the class decision, p0–p2 ∈ [0, 1] the class probabilities. A cluster without a prediction is scored as
@@ -73,3 +74,22 @@ are dropped from every split (paper §3.1, computed from the pixels; the upstrea
 `chargeOriginal_atEdge < 50` cut selects the same clusters except 2 of 1,971,855 in 3sExtended). `3sExtended` files are split 80/20 file-disjointly into
 train/val; `3s` and `2s` are separate test sets. Targets are divided by the per-target 99th
 percentile of |label| over the train split only.
+
+**Predictions:** `predictions_<name>.csv` with `sample_id` and `x-midplane`, `y-midplane` (µm), `cotAlpha`,
+`cotBeta` for every contained cluster of a test set, plus `sigma_<target>` (1σ, same units) for models with
+uncertainties. A target a model does not predict is empty (NaN) and is excluded from that variable's metrics.
+**Metrics:** per test set and variable (x, y in µm; α, β in degrees from the cotangents): residual mean, I68 (width
+of the shortest interval holding ⌈0.68 n⌉ residuals), and for σ-models mean σ, pull mean and width, Gaussian NLL
+and the fraction inside ±1σ / ±2σ. The ranking score `rank_i68` is the mean over x, y, β of I68 divided by the
+shipped reference (`regression/i68_reference.json`, the Full_MLP c4 reference model); lower is better, and a
+model with any missing or NaN x, y or β is unranked.
+**Descriptor:** `descriptor_<name>.json` with `track`, `n_params`, `slices`; the asic track also declares
+`thresholds` (three strictly increasing ADC thresholds in e, applied as Eq 4 to slices 0 and 19) and
+`weight_bits`, `activation_bits` (≤ 8), with n_params ≤ 2734 and slices [0, 19].
+
+## Restricted data (CMS-internal)
+
+Some validation uses data not on Zenodo: the filter paper's simulation (dataset8) and preprocessed CSVs, and the
+tracked / untracked samples behind 2310.02474 Table 2 (DS14, DS15). They are available to CMS members on request
+from the paper authors. Nothing from them is in this repository or its outputs beyond aggregate numbers in
+`docs/VALIDATION.md`, and no benchmark score depends on them.
