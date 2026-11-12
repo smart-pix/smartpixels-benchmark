@@ -1,7 +1,7 @@
 """Regression losses (paper 2602.15946 §3.2; upstream smart-pixels-ml-2bit-Synth loss.py).
 
 Output layouts: Max = 14 (means at 0,2,4,6; scale-tril diagonal at 1,3,5,7 as max(., 0) + 1e-9; strict
-lower triangle row-major at 8..13); Full = 8 (means 0..3; sigma = softplus(4..7) + 1e-9); Slim = 3 means.
+lower triangle row-major at 8..13); Full = 8 (means 0..3; sigma = softplus(4..7) + 1e-9); Slim = 3 means, summed squared error.
 """
 
 import math
@@ -40,8 +40,9 @@ def diag_nll(y, p):
     return tf.reduce_sum(0.5 * z * z + tf.math.log(s) + 0.5 * math.log(2 * math.pi))
 
 
-def mse(y, p):
-    return tf.reduce_mean(tf.square(tf.cast(y, p.dtype) - p))
+def sse(y, p):
+    """Summed over the batch like the NLLs (upstream slim_sse_loss); a batch mean lets the regularizers zero the weights."""
+    return tf.reduce_sum(tf.square(tf.cast(y, p.dtype) - p))
 
 
-LOSSES = {"Max": mvn_tril_nll, "Full": diag_nll, "Slim": mse}
+LOSSES = {"Max": mvn_tril_nll, "Full": diag_nll, "Slim": sse}

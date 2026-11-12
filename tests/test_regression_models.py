@@ -102,7 +102,8 @@ def test_losses_match_numpy():
     s = np.logaddexp(0, q[:, 4:]) + 1e-9
     z = (y - q[:, :4]) / s
     assert losses.diag_nll(y, tf.constant(q)).numpy() == pytest.approx(np.sum(0.5 * z * z + np.log(s) + 0.5 * np.log(2 * np.pi)), rel=1e-5)
-    assert losses.mse(y[:, :3], tf.constant(q[:, :3])).numpy() == pytest.approx(np.mean((y[:, :3] - q[:, :3]) ** 2), rel=1e-5)
+    assert losses.sse(y[:, :3], tf.constant(q[:, :3])).numpy() == pytest.approx(np.sum((y[:, :3] - q[:, :3]) ** 2), rel=1e-5)
+    assert losses.LOSSES["Slim"] is losses.sse
 
 
 def test_decode_matches_loss_layout():
