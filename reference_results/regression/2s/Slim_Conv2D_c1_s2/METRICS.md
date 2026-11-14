@@ -1,0 +1,12 @@
+# Slim_Conv2D_c1_s2 on 2s
+
+rank_i68: 0.7663
+
+| metric | x | y | alpha | beta |
+|---|---|---|---|---|
+| I68 | 9.527 | 1.923 | nan | 5.647 |
+| mean | 0.2662 | 0.01841 | nan | 0.205 |
+| n | 1.402e+06 | 1.402e+06 | 0 | 1.402e+06 |
+
+Coverage: n_truth = 1401971, n_scored = 1401971, n_truth_without_prediction = 0, n_predictions_without_truth = 0
+Track: open; violations: none

@@ -1,5 +1,402 @@
 {
-  "source": "",
-  "source_commit": "",
-  "files": {}
+ "source": "committed in this repository under weights/ (entries without a url are copied from here)",
+ "source_commit": "per file, in its model string",
+ "files": {
+  "filter/M1_s0.scaler.json": {
+   "role": "reference",
+   "sha256": "52e981bdd30a0a67303336a85da2fa0818b5cf0b0d36b1f2856b7d602934d6db",
+   "bytes": 103,
+   "model": "smartpix_bench.filter.models M1 (Dense128 on y-size + y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 0, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/M1_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "bbd098e7f081efdef9e8eb681a415e8036cf6d806060637732dd09f52bedff98",
+   "bytes": 31760,
+   "model": "smartpix_bench.filter.models M1 (Dense128 on y-size + y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 0, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/M2_s0.scaler.json": {
+   "role": "reference",
+   "sha256": "80f2dec06f3cb46dc1aac9ea154d81bb34acf6aa03b2f94e033b571da6b649dd",
+   "bytes": 535,
+   "model": "smartpix_bench.filter.models M2 (Dense128 on slice-19 y-profile + y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 0, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/M2_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "8f1dd00e98a3b639f70511f7f499a46c2030274a6155bad6dc3a83df19731393",
+   "bytes": 49680,
+   "model": "smartpix_bench.filter.models M2 (Dense128 on slice-19 y-profile + y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 0, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/M3_s1.scaler.json": {
+   "role": "reference",
+   "sha256": "f450f0e36121dbe00499e11b1072ca61da743683c50ceba23bb1ae8c9c74c6ee",
+   "bytes": 568,
+   "model": "smartpix_bench.filter.models M3 (Conv2D 16/64 + Dense32 on slices 0-7 y-profiles + y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 1, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/M3_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "b66039f538565ba490d21e2e50d73c2d0088431ed07c863a267c4e628eceefe6",
+   "bytes": 1037976,
+   "model": "smartpix_bench.filter.models M3 (Conv2D 16/64 + Dense32 on slices 0-7 y-profiles + y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 1, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/QM2_s4.scaler.json": {
+   "role": "reference",
+   "sha256": "d66f04e4c562242c3800ea999b42955742bd9792fb5329a1052aadc348ca0c41",
+   "bytes": 586,
+   "model": "smartpix_bench.filter.models QM2 (QKeras w5/BN/a10 on 2-bit y-profile + 6-bit y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 4, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/QM2_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "02d157583ff670d85ee4fa69d81b92910b6f23c30f066f1b24882cd26c63f8f0",
+   "bytes": 61648,
+   "model": "smartpix_bench.filter.models QM2 (QKeras w5/BN/a10 on 2-bit y-profile + 6-bit y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 4, the median by validation rejection at eff 0.933; commit d74c027"
+  },
+  "filter/QM2_w4a8_s1.scaler.json": {
+   "role": "auxiliary",
+   "sha256": "d66f04e4c562242c3800ea999b42955742bd9792fb5329a1052aadc348ca0c41",
+   "bytes": 586,
+   "model": "smartpix_bench.filter.models QM2_w4a8 (QKeras w4/a8 on 2-bit y-profile + 6-bit y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 1, the median by validation rejection at eff 0.933; commit afd4a9a (filter code = d74c027)"
+  },
+  "filter/QM2_w4a8_s1.weights.h5": {
+   "role": "auxiliary",
+   "sha256": "3740ab18252e7bc1bf2ef9d4a112c67731d002773dcc3c3d5700758ba10b4089",
+   "bytes": 61648,
+   "model": "smartpix_bench.filter.models QM2_w4a8 (QKeras w4/a8 on 2-bit y-profile + 6-bit y0); trained on the class from signed pt (0.2 GeV); 2:1:1 train balance, early stop patience 20; seed 1, the median by validation rejection at eff 0.933; commit afd4a9a (filter code = d74c027)"
+  },
+  "regression/Full_Conv1D_c1_s0.meta.json": {
+   "role": "reference",
+   "sha256": "151c62fcf07ed655b927cb1733c4f873a9df9bff2df59bcfe89010dcfd699681",
+   "bytes": 211,
+   "model": "smartpix_bench.regression.models Full_Conv1D c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c1_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "6a93e0c96f3011149e09279b93f478a651111a9d89dc85902dbc001a18795a94",
+   "bytes": 87848,
+   "model": "smartpix_bench.regression.models Full_Conv1D c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c2_s2.meta.json": {
+   "role": "reference",
+   "sha256": "a3539c51aec2bc030c5280d1891332ea76a6954d47b4286b356be5fdb474dffb",
+   "bytes": 211,
+   "model": "smartpix_bench.regression.models Full_Conv1D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c2_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "7de45c3db6780faad5ebc98948d19f6505cf625c49919a01b923a03e109b8aca",
+   "bytes": 79600,
+   "model": "smartpix_bench.regression.models Full_Conv1D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c3_s2.meta.json": {
+   "role": "reference",
+   "sha256": "d5d9844e430d90e2cce931ce656514b7907428f378258e9c2fe45504a6bb8f43",
+   "bytes": 282,
+   "model": "smartpix_bench.regression.models Full_Conv1D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c3_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "0377558897d1deeaeafc035fa091ac9f3a829fec532ceda4eee0a8234e2aaf78",
+   "bytes": 79600,
+   "model": "smartpix_bench.regression.models Full_Conv1D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c4_s1.meta.json": {
+   "role": "reference",
+   "sha256": "2d273bac2030483f5d7d3ce3e4da1088b73260498d4a1c628dccd4d72a64c038",
+   "bytes": 279,
+   "model": "smartpix_bench.regression.models Full_Conv1D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv1D_c4_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "28422ed6da43205689d3efc1db7980039a492918462a5938d43048cc03162c32",
+   "bytes": 79928,
+   "model": "smartpix_bench.regression.models Full_Conv1D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c1_s4.meta.json": {
+   "role": "reference",
+   "sha256": "4e20462195f0a29ab0bb7fcd6560b4106e158fd70632d9e492283db014a523b5",
+   "bytes": 211,
+   "model": "smartpix_bench.regression.models Full_Conv2D c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c1_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "fb06191eba8582a936b5bac94111ec895025a32b8d9f72e8acd96abe642d25c0",
+   "bytes": 68144,
+   "model": "smartpix_bench.regression.models Full_Conv2D c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c2_s3.meta.json": {
+   "role": "reference",
+   "sha256": "003923a7362fbd56f42f9dbc3d361a71edbe1c619511d98788429d4aa72490ce",
+   "bytes": 211,
+   "model": "smartpix_bench.regression.models Full_Conv2D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 3, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c2_s3.weights.h5": {
+   "role": "reference",
+   "sha256": "c564919c69f66abb3ced98f68e7c7eba9006da8eeadffa51a83b424e6d6af573",
+   "bytes": 64016,
+   "model": "smartpix_bench.regression.models Full_Conv2D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 3, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c3_s4.meta.json": {
+   "role": "reference",
+   "sha256": "fe5a8a3d45f3d1e2ae69bda3bb9678077b1b06e6db59dbe52023fe1ce3688378",
+   "bytes": 283,
+   "model": "smartpix_bench.regression.models Full_Conv2D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c3_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "c72c5fab748cc64307a0575ca19f47852248b49b928fea4dcd86511c07feca4a",
+   "bytes": 64016,
+   "model": "smartpix_bench.regression.models Full_Conv2D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c4_s4.meta.json": {
+   "role": "reference",
+   "sha256": "74fa03b3442cf8b401c9827d43ffa782e828b57b5239a6d85b25222899b9127f",
+   "bytes": 283,
+   "model": "smartpix_bench.regression.models Full_Conv2D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_Conv2D_c4_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "fba4c9951311afd581d16cbfd36252d42e560b6bafe2fe7b751cbdd627db5956",
+   "bytes": 66080,
+   "model": "smartpix_bench.regression.models Full_Conv2D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c1_s0.meta.json": {
+   "role": "reference",
+   "sha256": "06e6020033a2dda04a2f8f1eeff4e1d24fcada9a5f96f94f72774d80f8eb224f",
+   "bytes": 208,
+   "model": "smartpix_bench.regression.models Full_MLP c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c1_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "efb0ca16fd968afb24d7d95437cb6930a0dfb7f8342d092b8377b934a9221523",
+   "bytes": 195440,
+   "model": "smartpix_bench.regression.models Full_MLP c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c2_s3.meta.json": {
+   "role": "reference",
+   "sha256": "dc564ebc9423ba7cdd68a0fbc4195a3d5d2f4f64ebeb835e785b1c6b46a24fa9",
+   "bytes": 208,
+   "model": "smartpix_bench.regression.models Full_MLP c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 3, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c2_s3.weights.h5": {
+   "role": "reference",
+   "sha256": "bc0544a406dadc91839a4e2e50fbfb8cef09ddb481be526d3b4b2c40e6cd3761",
+   "bytes": 84848,
+   "model": "smartpix_bench.regression.models Full_MLP c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 3, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c3_s1.meta.json": {
+   "role": "reference",
+   "sha256": "1cc8121522b2617a4b0b36a4b994743a1f780fe59bf1bb9cf3a2170b3307aab7",
+   "bytes": 281,
+   "model": "smartpix_bench.regression.models Full_MLP c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c3_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "3104a28db0eb0929f88fce5a72ff255c2d6f788bc86a415efb74751ad405aefe",
+   "bytes": 84848,
+   "model": "smartpix_bench.regression.models Full_MLP c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c4_s2.meta.json": {
+   "role": "reference",
+   "sha256": "0e2c894f6732029b07fb5f771adf8c01100aa0062fecaa7ba686d7553c7fb671",
+   "bytes": 275,
+   "model": "smartpix_bench.regression.models Full_MLP c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Full_MLP_c4_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "5fb7130fed2e8258d998e9595e809e36313cdac99979e5fca14e9999c8f40ab5",
+   "bytes": 84848,
+   "model": "smartpix_bench.regression.models Full_MLP c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Max_Conv2D_c1_s0.meta.json": {
+   "role": "reference",
+   "sha256": "efaad415eeae85a5e82713a8689063059b5a1f5c9455450d76ccb722d2d072ef",
+   "bytes": 210,
+   "model": "smartpix_bench.regression.models Max_Conv2D c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Max_Conv2D_c1_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "11ec7fd80364b35158b82a9b832229ac251ecf864b7e45c46f5aa771af9b2585",
+   "bytes": 68152,
+   "model": "smartpix_bench.regression.models Max_Conv2D c1 (20 slices, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Max_Conv2D_c2_s4.meta.json": {
+   "role": "reference",
+   "sha256": "146e0fbda0628dd5d96bbfb8c926ca6ebb5ad973e6db0ad37665b02601a0cc41",
+   "bytes": 210,
+   "model": "smartpix_bench.regression.models Max_Conv2D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Max_Conv2D_c2_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "972d113cd3f29c5f2edab3520475f630b6dec240c108bdfb78c63060a3e2af9f",
+   "bytes": 66072,
+   "model": "smartpix_bench.regression.models Max_Conv2D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Max_Conv2D_c3_s1.meta.json": {
+   "role": "reference",
+   "sha256": "6a3fd8d8cc51448d819125e72ce23a695ec8a6f6e302b2d82c060b8f1dd22dad",
+   "bytes": 283,
+   "model": "smartpix_bench.regression.models Max_Conv2D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit 0731db5; UNHEALTHY: angle-collapsed (constant alpha/beta predictions), kept by the median rule (docs/VALIDATION.md R15)"
+  },
+  "regression/Max_Conv2D_c3_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "6bc93a86dbfd8f4c1567a0613ab422546ac711e95887affd468502616691078f",
+   "bytes": 66072,
+   "model": "smartpix_bench.regression.models Max_Conv2D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit 0731db5; UNHEALTHY: angle-collapsed (constant alpha/beta predictions), kept by the median rule (docs/VALIDATION.md R15)"
+  },
+  "regression/Max_Conv2D_c4_s3.meta.json": {
+   "role": "reference",
+   "sha256": "51762a1c27e19a8578ccae58ba7836495cadb641377b406b606a9c1c46330e88",
+   "bytes": 282,
+   "model": "smartpix_bench.regression.models Max_Conv2D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 3, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Max_Conv2D_c4_s3.weights.h5": {
+   "role": "reference",
+   "sha256": "dc8c46fee4b78fe4b5fd22acc492cc5ffcc037e6ca76f079bd92a8c58363e0b1",
+   "bytes": 68136,
+   "model": "smartpix_bench.regression.models Max_Conv2D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotAlpha, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 3, the median by validation mean I68 (x, y, beta); commit 0731db5"
+  },
+  "regression/Slim_Conv1D_c1_s4.meta.json": {
+   "role": "reference",
+   "sha256": "5bb552835ee112d68d13ef2b9e5c4ce99bf1b9b10660ad5cbdf6abdaf42ccf81",
+   "bytes": 180,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c1_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "69a8423daf7d16c333579d2d194016a3808d5d3de7e8e140656ce0aed2d40578",
+   "bytes": 87328,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c2_s1.meta.json": {
+   "role": "reference",
+   "sha256": "8b1b335feccc5ed28f22e147ef815441d348234ea23702c2c2d362add7a84e83",
+   "bytes": 180,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c2_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "b55063cde46f4789cf83a9282ab3a5532b27e34d1a7ea4064abd12ecea7a86a9",
+   "bytes": 79600,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c3_s2.meta.json": {
+   "role": "reference",
+   "sha256": "091298f82a4c472cc409e32b59d31056891067cacb1786cec0e7fa4c963f6fc5",
+   "bytes": 251,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c3_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "7251bfbaf4738185a6d211980571412dfbcc2e238b099f130e84459bc9f3ba33",
+   "bytes": 79600,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c4_s1.meta.json": {
+   "role": "reference",
+   "sha256": "55901e4ae6e5f4fbbed4b534391ae570a5c54e7dd95e93e81a0e52456b27e91c",
+   "bytes": 253,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv1D_c4_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "97c6cb35d94dd41d6e9e16a711b3cd58ff05158ef6ee6476f2777b92e4bd9add",
+   "bytes": 79928,
+   "model": "smartpix_bench.regression.models Slim_Conv1D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c1_s0.meta.json": {
+   "role": "reference",
+   "sha256": "a173f2171b66b694a989afc095d7945f79948bb5abd5ac262820bac2b9f48776",
+   "bytes": 180,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c1_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "27b6f0bb7443018f1020e1535517932bdd2f177160ca27bdfff257a13f81ed49",
+   "bytes": 66096,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c2_s2.meta.json": {
+   "role": "reference",
+   "sha256": "11253e8d2cb66fa2815a69c101a841c5ccec3aa2817bf010c4fe486e75b36ca9",
+   "bytes": 180,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c2_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "c408c7faa3996aa94bdb404eaf5245b91859db6dfb9d1f27fc90d5ed48770db0",
+   "bytes": 64016,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c3_s2.meta.json": {
+   "role": "reference",
+   "sha256": "bd77f89b28230189b10e45923eb987f30c22a5c9afa8afa2ceb6ecf42b9817ea",
+   "bytes": 249,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c3_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "4533ec549152f2b9c050a72e0e184a06831304f0028438d152166e04174eb0e4",
+   "bytes": 64016,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c4_s2.meta.json": {
+   "role": "reference",
+   "sha256": "f25980f17c3513888b69e40c7f0ff2f64cc30c0ad4b4b1bb8e11841463da0dac",
+   "bytes": 249,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_Conv2D_c4_s2.weights.h5": {
+   "role": "reference",
+   "sha256": "13341f6371142ae227067b0363d378d0d15f49e46d2af4f1e8a30e448d5f194e",
+   "bytes": 66080,
+   "model": "smartpix_bench.regression.models Slim_Conv2D c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 2, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c1_s0.meta.json": {
+   "role": "reference",
+   "sha256": "ccbb67f2841df26c6feffd9f02f1e8d1f9a7a823d04775cee82cfa26d7353a85",
+   "bytes": 177,
+   "model": "smartpix_bench.regression.models Slim_MLP c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c1_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "ca6d55bbf17e04b40a2ca053c7499133d382bb97e09021d66b3045af567fce6e",
+   "bytes": 193392,
+   "model": "smartpix_bench.regression.models Slim_MLP c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c2_s4.meta.json": {
+   "role": "reference",
+   "sha256": "c9b2d8ede9e1eb3fa0c79b3a5b36923b945ee57a8ed343d184066d2e2d33ed51",
+   "bytes": 177,
+   "model": "smartpix_bench.regression.models Slim_MLP c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c2_s4.weights.h5": {
+   "role": "reference",
+   "sha256": "b3051feb8cfdb3eed0af8e3e2fd8200b397cddf2bba6663d7de8a650bbbed0ce",
+   "bytes": 82800,
+   "model": "smartpix_bench.regression.models Slim_MLP c2 (slices {0,19}, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 4, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c3_s0.meta.json": {
+   "role": "reference",
+   "sha256": "38bb5147ddd5694d31abbc08b161640fc111b0e5d7699a76daa487b0c1351c03",
+   "bytes": 249,
+   "model": "smartpix_bench.regression.models Slim_MLP c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c3_s0.weights.h5": {
+   "role": "reference",
+   "sha256": "62add5cbb919929d83c0b0acbba852c165acfdf4ac39ba23824b778862bf49f7",
+   "bytes": 82800,
+   "model": "smartpix_bench.regression.models Slim_MLP c3 (slices {0,19} 2-bit at its own sq thresholds, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c4_s1.meta.json": {
+   "role": "reference",
+   "sha256": "67d6fdb64d6f5b137e9217ebcb8ad7b666649c9a53c5c8a678c25f4d5eebea33",
+   "bytes": 249,
+   "model": "smartpix_bench.regression.models Slim_MLP c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  },
+  "regression/Slim_MLP_c4_s1.weights.h5": {
+   "role": "reference",
+   "sha256": "b9859c83fa7e8fc03f1d4604b7daf89947a6a2e3d912bd1e16ecee0f837aa5c4",
+   "bytes": 82800,
+   "model": "smartpix_bench.regression.models Slim_MLP c4 (slices {0,19} 2-bit at its own sq thresholds, QKeras); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 1, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+  }
+ }
 }

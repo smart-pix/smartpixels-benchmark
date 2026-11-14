@@ -1,0 +1,23 @@
+{
+ "coverage": {
+  "n_truth": 1377888,
+  "n_scored": 1377888,
+  "n_truth_without_prediction": 0,
+  "n_predictions_without_truth": 0
+ },
+ "metrics": {
+  "n_x": 0,
+  "mean_x": NaN,
+  "I68_x": NaN,
+  "n_y": 0,
+  "mean_y": NaN,
+  "I68_y": NaN,
+  "n_alpha": 1377888,
+  "mean_alpha": -0.007727500675749757,
+  "I68_alpha": 3.755501167390392,
+  "n_beta": 1377888,
+  "mean_beta": -6.318109823486786,
+  "I68_beta": 22.75388690284663,
+  "rank_i68": NaN
+ }
+}

@@ -1,0 +1,1 @@
+{"model": "Slim_Conv1D", "config": "c1", "seed": 4, "targets": ["x-midplane", "y-midplane", "cotBeta"], "label_scale": [122.57460611517841, 30.81241827813205, 1.8972195846006021]}

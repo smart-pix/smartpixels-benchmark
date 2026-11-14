@@ -27,7 +27,7 @@ export SPB_REPO PYTHONUNBUFFERED=1
 spb_stack_env
 
 # Reference model lists; task i of an array over models x seeds is model i / SPB_SEEDS, seed i % SPB_SEEDS.
-SPB_FILTER_MODELS=(M1 M2 M3 QM2)
+SPB_FILTER_MODELS=(M1 M2 M3 QM2 QM2_w4a8)
 SPB_REGRESSION_MODELS=(Full_Conv1D Full_Conv2D Full_MLP Max_Conv2D Slim_Conv1D Slim_Conv2D Slim_MLP)
 
 spb_activate() {

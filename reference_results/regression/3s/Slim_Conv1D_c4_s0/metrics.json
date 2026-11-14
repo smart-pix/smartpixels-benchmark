@@ -1,0 +1,41 @@
+{
+ "coverage": {
+  "n_truth": 1377888,
+  "n_scored": 1377888,
+  "n_truth_without_prediction": 0,
+  "n_predictions_without_truth": 0
+ },
+ "metrics": {
+  "n_x": 1377888,
+  "mean_x": -0.4832127378614637,
+  "I68_x": 15.614962084585349,
+  "n_y": 1377888,
+  "mean_y": -0.16838021860261845,
+  "I68_y": 3.0822074564734088,
+  "n_alpha": 0,
+  "mean_alpha": NaN,
+  "I68_alpha": NaN,
+  "n_beta": 1377888,
+  "mean_beta": 0.5877209523356823,
+  "I68_beta": 7.633163409999625,
+  "rank_i68": 1.1638133539175641
+ },
+ "descriptor": {
+  "model": "Slim_Conv1D",
+  "config": "c4",
+  "track": "asic",
+  "n_params": 2649,
+  "slices": [
+   0,
+   19
+  ],
+  "thresholds": [
+   299.3381652832031,
+   692.774658203125,
+   1673.9586181640625
+  ],
+  "weight_bits": 8,
+  "activation_bits": 8
+ },
+ "asic_violations": []
+}

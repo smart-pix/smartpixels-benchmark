@@ -1,0 +1,1 @@
+{"model": "Full_Conv2D", "config": "c3", "seed": 4, "targets": ["x-midplane", "y-midplane", "cotAlpha", "cotBeta"], "label_scale": [122.57460611517841, 30.81241827813205, 6.508374235591209, 1.8972195846006021], "thresholds": [310.1044616699219, 707.4459228515625, 1721.67724609375]}

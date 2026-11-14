@@ -44,7 +44,8 @@ data/SCHEMA.md          every field, ground truth, forbidden inputs, prediction 
 docs/VALIDATION.md      how the reference solutions were checked, and every departure from paper and upstream
 benchmarks/<task>/      benchmark card, rubric.yaml, SCORE_REPORT.md
 codabench/              Codabench bundle builder and per-task bundle sources
-weights/MANIFEST.json   reference checkpoints with sha256 (scripts/fetch_weights.py)
+weights/<task>/         median-seed reference checkpoints, listed with sha256 in weights/MANIFEST.json (scripts/fetch_weights.py)
+reference_results/      committed LEADERBOARD.md and <split>/<model>/metrics.json of the reference runs
 tests/                  unit and pipeline tests on real fixture clusters
 SUBMISSION.md           how to submit a model and what to report with it
 ```
