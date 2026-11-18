@@ -18,10 +18,14 @@ uv run python -m pytest tests -q
 m=Full_MLP; s=0
 for c in sq c1 c2 c3 c4; do uv run python -m smartpix_bench.regression.train --model $m --config $c --seed $s; done
 for c in c1 c2 c3 c4; do for split in 3s 2s; do
-  uv run python -m smartpix_bench.regression.predict --weights weights/regression/${m}_${c}_s$s --split $split --out results/regression/$split
+  uv run python -m smartpix_bench.regression.predict --weights results/weights/regression/${m}_${c}_s$s --split $split --out results/regression/$split
 done; done
 SPB_RESULTS=results uv run bash scripts/score_all.sh regression
 ```
+
+The median-seed reference checkpoints are committed in `weights/regression/`, so `predict` runs on them without
+training (e.g. `--weights weights/regression/Full_MLP_c4_s2`);
+`scripts/fetch_weights.py --out <dir>` copies them elsewhere and checks their sha256.
 
 The full reference (7 models × 5 configurations × 5 seeds, about 1,300 core-hours) is one command on HiPerGator:
 `bash slurm/submit.sh -A <group> regression` ([docs/HIPERGATOR.md](../../docs/HIPERGATOR.md)). To score your own
@@ -96,7 +100,7 @@ regularization, Nadam 1e-3, batch 5000, 1000 epochs, best-validation checkpoint:
 |---|---|---|
 | Max_Conv2D | 4 means + full covariance (MVN, Cholesky) | 1869 |
 | Full_Conv2D / Full_Conv1D / Full_MLP | 4 means + 4 σ (diagonal Gaussian NLL) | 1767 / 2734 / 2264 |
-| Slim_Conv2D / Slim_Conv1D / Slim_MLP | x, y, cot β (mean squared error) | 1682 / 2649 / 2179 |
+| Slim_Conv2D / Slim_Conv1D / Slim_MLP | x, y, cot β (squared error summed over the batch) | 1682 / 2649 / 2179 |
 
 Configurations: c1 20 slices, float; c2 slices {0, 19}, float; c3 slices {0, 19} digitized at the thresholds the
 model's own SoftQuantize stage learned (straight-through 2-bit ADC with a sigmoid surrogate gradient, k annealed
@@ -105,9 +109,25 @@ weights (conv 4-bit, dense 8-bit) and activations (asic track). Auxiliary rows: 
 (optimistic)*, *Geometric (optimistic)*, *Geometric + correction (optimistic)* (paper §3.4; the last three use truth
 angles or signs).
 
-**Results** (HiPerGator `hpg-default`, mean ± sample std over 5 seeds, both test sets): *pending*
-(`docs/VALIDATION.md` §2.1). Baselines on 3s: Barycenter x / y I68 19.6 / 2.47 µm; LocalReco 13.2 / 3.22 µm;
-corrected Geometric α / β I68 3.76° / 6.79°.
+**Results** (HiPerGator `hpg-default`; mean ± sample std over 5 seeds; 3s, 2s within 0.02; per variable and
+both sets in [reference_results/regression/LEADERBOARD.md](../../reference_results/regression/LEADERBOARD.md)):
+
+| rank_i68 (3s) | c1 | c2 | c3 | c4 (asic) | c4 I68 x / y µm, β ° |
+|---|---|---|---|---|---|
+| Full_MLP | 0.667 ± 0.030 | 0.800 ± 0.021 | 0.927 ± 0.017 | 1.021 ± 0.035 | 15.18 / 2.89 / 5.80 |
+| Slim_MLP | 0.977 ± 0.040 | 0.892 ± 0.011 | 0.940 ± 0.028 | 1.052 ± 0.048 | 14.18 / 2.77 / 6.92 |
+| Slim_Conv1D | 0.639 ± 0.021 | 0.743 ± 0.021 | 0.918 ± 0.018 | 1.148 ± 0.027 | 16.25 / 2.93 / 7.43 |
+| Full_Conv1D | 0.490 ± 0.022 | 0.703 ± 0.027 | 0.925 ± 0.020 | 1.163 ± 0.052 | 16.90 / 3.11 / 7.09 |
+| Full_Conv2D | 0.611 ± 0.032 | 0.962 ± 0.070 | 1.087 ± 0.017 | 1.349 ± 0.041 | 21.44 / 3.33 / 8.11 |
+| Slim_Conv2D | 0.763 ± 0.016 | 0.990 ± 0.017 | 1.146 ± 0.026 | 1.395 ± 0.031 | 19.88 / 3.15 / 9.78 |
+| Max_Conv2D | 0.673 ± 0.010 | 1.056 ± 0.081 | 2.892 ± 2.916 | 2.844 ± 2.915 | 45.76 / 9.73 / 11.63 |
+
+Against the paper's stated relations (VALIDATION §2.1): two frames cost 23–69 % in I68 for the Conv2D models and
+Full_Conv1D (paper 30–40 %, some angles > 60 %), less for Full_MLP and Slim_Conv1D, and Slim_MLP is better at two
+frames; 2-bit inputs change y and β by −10 to +30 % and cost 15–65 % in x (paper 5–10 %); the Conv2D models rank
+last at c2–c4; Full and Slim agree within 6 % at c3 and c4. Baselines on 3s: Barycenter x / y I68 19.6 / 2.47 µm;
+LocalReco 13.2 / 3.22 µm; corrected Geometric α / β I68 3.76° / 6.79°, against Full_MLP c3 14.3 / 2.53 µm and 2.90°
+/ 5.25°.
 
 **Verification.** Parameter counts, losses, SoftQuantize forward / gradient, the k schedule, decoding and
 every metric are unit-tested with discriminating controls; the full chain ran on real data
@@ -133,7 +153,11 @@ and the four configurations.
 **Known limitations.**
 - The paper's evaluation set is not public; this benchmark tests on the 3s and 2s sets (VALIDATION §3 R3).
 - 3sExtended keeps 591,562 clusters after containment, more than the paper's ~520k (R2).
-- Max_Conv2D has 1869 parameters, the paper 1898 (R1).
+- Max_Conv2D has 1869 parameters, the paper 1898 (R1). Its clipped likelihood traps or collapses 7 of its 15
+  sq / c3 / c4 trainings (R15); all seeds stay in the mean, and its c3 reference checkpoint (seed 1, the median
+  by validation) is one of the angle-collapsed ones.
+- Slim_MLP is worse at 20 frames than at 2 in every seed, against the paper's trend (R16): the regularizers make
+  up 44 % of its loss and its training on raw 20-frame inputs is unstable. The paper's recipe is kept.
 - The ranking score and the SoftQuantize details where the paper's equations are inconsistent are this
   benchmark's choices (R4, R13).
 

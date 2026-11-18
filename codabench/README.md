@@ -75,8 +75,22 @@ The bundle is 194 MB, the zip 70 MB.
 - Tier 4: `codalab/codalab-legacy:py312` (Python 3.12.13, numpy 1.26.4, pandas 2.2.3), run with Apptainer on
   HiPerGator. The sample and baseline scores are identical to the host run. There is no local Docker engine.
 
-**Regression.** Fixture build and checks only (`tests/test_codabench.py`). The real build needs
-`i68_reference.json`, which the reference run writes. It is rebuilt and recorded here with the reference results.
+**Regression, real data.** Built on HiPerGator on 2026-11-14 from the reference run (`runs/regression_0731db5`,
+code afd4a9a, job 51318708) against the shipped `i68_reference.json` (Full_MLP c4 seed 2). The bundle is 963 MB,
+the zip 511 MB, and the sample submission 207 MB.
+- All 148 pipeline zips (140 model-seeds, 8 baselines) score identically to their `metrics.json`.
+- Discrimination on 3s: the solution, Full_MLP_c4_s2, scores `3s_rank_i68` = 1.0. The constant baseline (training
+  mean, σ = training std) scores 8.06, and reference models span 0.47–1.61 outside the failed Max_Conv2D seeds
+  (1.98–8.06; docs/VALIDATION.md R15).
+- Validator tiers 1–3 (job 51902398): pass except the missing logo. As for the filter, the validator warns that
+  `SUBMISSION_FILES` omits the optional `descriptor.json`.
+- Malformed uploads fail and name the problem:
+  - missing sample: "predictions_3s.csv has no prediction for 1 of 1377888 clusters";
+  - infinite x: "predictions_3s.csv: infinite predictions";
+  - missing file: "'predictions_2s.csv' not found in the submission".
+- A wrapping folder is flagged by the validator, and the scoring program still scores it.
+- Tier 4: `codalab/codalab-legacy:py312` (Python 3.12.13, numpy 1.26.4, pandas 2.2.3) run with Apptainer on
+  HiPerGator gives exit 0 and the same `scores.json` as the host for the sample and the baseline.
 
 ## Before upload
 
@@ -84,4 +98,6 @@ The bundle is 194 MB, the zip 70 MB.
 - [ ] Replace `pages/terms_and_conditions.md`, which is a marked placeholder, with the organizers' terms.
 - [ ] Set the phase `start` (placeholder 1-1-2027), and optionally `contact_email`.
 - [ ] Confirm the titles, `max_submissions_per_day` (5) and `execution_time_limit` (600 s filter, 1200 s regression).
+- [ ] Regression size: the bundle zip is 511 MB (truth for 2.8 M clusters plus the solution), and a submission is
+  about 207 MB. Check both against the Codabench instance's upload limits, or host the reference data separately.
 - [ ] Replace "the benchmark repository" in `pages/` with its URL once it is public.

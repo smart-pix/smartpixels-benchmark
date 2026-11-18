@@ -18,10 +18,14 @@ uv run python -m pytest tests -q
 uv run python -m smartpix_bench.filter.cache            # features for the train / test splits
 for m in M1 M2 M3 QM2; do for s in 0 1 2 3 4; do
   uv run python -m smartpix_bench.filter.train --model $m --seed $s
-  uv run python -m smartpix_bench.filter.predict --model $m --weights weights/filter/${m}_s$s --out $SPB_RESULTS/filter/test
+  uv run python -m smartpix_bench.filter.predict --model $m --weights results/weights/filter/${m}_s$s --out $SPB_RESULTS/filter/test
 done; done
 SPB_RESULTS=results uv run bash scripts/score_all.sh filter     # truth, metrics, LEADERBOARD.md, Codabench zips
 ```
+
+The median-seed reference checkpoints are committed in `weights/filter/`, so `predict` runs on them without
+training (e.g. `--weights weights/filter/M2_s0`);
+`scripts/fetch_weights.py --out <dir>` copies them elsewhere and checks their sha256.
 
 On HiPerGator: `bash slurm/submit.sh -A <group> filter` ([docs/HIPERGATOR.md](../../docs/HIPERGATOR.md)).
 To score your own model, write `results/filter/test/predictions_<name>.csv` (every test cluster; columns below)
@@ -103,13 +107,25 @@ on validation loss (patience 20, best weights), inputs standardized with train s
 | QM2 | asic | 2-bit y-profile, 6-bit y0 | QDense 128 (5-bit weights) → BN → 10-bit ReLU → QDense 3 | 2819 |
 | *QM2_w4a8 (auxiliary)* | asic | as QM2 | 4-bit weights, 8-bit ReLU (the paper's stated hardware choice) | 2819 |
 
-**Results** (HiPerGator `hpg-default`, AMD EPYC Rome; mean ± sample std over 5 seeds; test set as above):
-the 2:1:1 reference run is *pending* (`docs/VALIDATION.md` §1.4). The superseded 1:1:1 ablation ranks
-M3 0.332 ± 0.009, M2 0.223 ± 0.006, QM2 0.197 ± 0.002, M1 0.156 ± 0.000 on the primary metric.
+**Results** (HiPerGator `hpg-default`, AMD EPYC Rome; mean ± sample std over 5 seeds; test set as above;
+[reference_results/filter/LEADERBOARD.md](../../reference_results/filter/LEADERBOARD.md)):
+
+| Model | Track | Bkg. rej. @ eff 0.933 | Signal eff. / bkg. rej. (argmax) | Paper (argmax) |
+|---|---|---|---|---|
+| M3 | open | 0.3365 ± 0.0031 | 97.94 ± 0.23 / 21.27 ± 0.85 % | 97.6 / 21.7 % (Table 1) |
+| M2 | open | 0.2314 ± 0.0035 | 93.15 ± 0.59 / 23.79 ± 0.90 % | 93.3 / 25.1 % (Table 1) |
+| QM2 | asic | 0.1989 ± 0.0011 | 90.70 ± 0.66 / 24.26 ± 0.92 % | 87.3 / 28.2 % (Table 4, model unidentified) |
+| M1 | open | 0.1563 ± 0.0003 | 84.20 ± 0.55 / 26.39 ± 0.56 % | 84.8 / 26.6 % (Table 1) |
+| *QM2_w4a8 (auxiliary)* | asic | 0.1919 ± 0.0017 | 89.30 ± 0.88 / 25.59 ± 1.26 % | — |
+
+Retrained on the paper's own preprocessed inputs (CMS-restricted), M2 gives 92.96 / 24.33 % and M3 97.44 /
+21.96 % (Table 1: 93.3 / 25.1, 97.6 / 21.7). With the superseded 1:1:1 balance the argmax points move far from
+the paper's (M2 82.4 / 38.5 %), while the primary metric barely changes (M3 0.332, M2 0.223, QM2 0.197, M1 0.156).
 
 **Verification.** Features match the paper's preprocessed inputs row by row; our scorer reproduces Table 1 from
-the paper's stored M2 predictions (93.19 % / 25.13 %); M2 retrained on the paper's inputs gives 92.96 ± 0.74 % /
-24.33 ± 0.89 % vs Table 1's 93.3 / 25.1 ([VALIDATION](../../docs/VALIDATION.md) §1.1–1.3).
+the paper's stored M2 predictions (93.19 % / 25.13 %); M2 and M3 retrained on the paper's inputs reproduce Table 1
+within their seed spread ([VALIDATION](../../docs/VALIDATION.md) §1.1–1.3). QM2's argmax point does not match
+Table 4's quantized row, whose model is not in the upstream code (§3 F16).
 
 **Requirements.** CPU only; Python 3.11, TensorFlow 2.15.1, QKeras 0.9.0 (`uv.lock`). Cache 5.5 min / 8 GB;
 training 1–15 min per model-seed on 4 cores.
@@ -134,6 +150,7 @@ and the angle sets the cluster's length along y and its charge-collection time p
   release: its tracking-efficiency correction was not found.
 - The primary metric and the 2:1:1 balance are this benchmark's readings of the paper (VALIDATION §3 F3, F11).
 - M1 has no upstream code.
+- The model behind Table 4's quantized row (87.3 / 28.2 %) is unidentified; QM2 is the Fig 8 notebook model (F16).
 
 **Citation.** Yoo et al., "Smart pixel sensors: towards on-sensor filtering of pixel clusters with deep
 learning", [arXiv:2310.02474](https://arxiv.org/abs/2310.02474); dataset

@@ -1,18 +1,18 @@
 # Rubric score: smartpixels-regression
 
-Scored: 2026-11-10
+Scored: 2026-11-14
 
 | Category | Score |
 |---|---|
 | Software Environment | 4.0 / 5 |
 | Problem Specification and Constraints | 5.0 / 5 |
-| Reference Solution | 2.0 / 5 |
+| Reference Solution | 3.0 / 5 |
 | Documentation | 5.0 / 5 |
 | Dataset | 5.0 / 5 |
 | Performance Metrics | 5.0 / 5 |
-| **Overall (mean of categories)** | **4.33 / 5** |
+| **Overall (mean of categories)** | **4.50 / 5** |
 
-Below the MLCommons Science Benchmark Endorsement threshold (overall >= 4.5) by 0.17 points.
+**Meets the MLCommons Science Benchmark Endorsement threshold** (overall >= 4.5).
 
 ## Gaps and next steps
 
@@ -21,7 +21,6 @@ Below the MLCommons Science Benchmark Endorsement threshold (overall >= 4.5) by 
 
 ### Reference Solution
 - [ ] A reference solution is publicly available.
-- [ ] All metrics defined as part of the benchmark are evaluated as part of the reference solution.
 - [ ] The baseline solution/model is openly available for study (architecture, hyperparameters, and training code if a neural network).
 
 ## Motif tags

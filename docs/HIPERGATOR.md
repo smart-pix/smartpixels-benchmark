@@ -47,14 +47,14 @@ model × seed (`i / SPB_SEEDS`, `i % SPB_SEEDS`, 5 seeds); `SPB_MAX_*` in the pr
 | Job | Array | Resources (per task) | Measured wall time |
 |---|---|---|---|
 | filter cache | — | 2 cores, 16 GB | 5.5 min, 7.9 GB |
-| filter train | 4 models × 5 seeds | 4 cores, 8 GB | M1 1–1.5 min, M2 2–3.5, QM2 2–4, M3 10–15 (1:1:1 balance) |
-| filter predict + score | 20, then 1 | 4 cores, 24 GB | 12 min for all 20 serially |
+| filter train | 5 models × 5 seeds | 4 cores, 8 GB | M1 1–1.5 min, M2 2–3.5, QM2 2–4, M3 10–15 (1:1:1 balance); QM2_w4a8 2–5.5 incl. predict |
+| filter predict + score | 25, then 1 | 4 cores, 24 GB | 12 min for 20 predictions serially; rescoring all 25 9 min |
 | regression sq | 7 × 5, ≤ 12 at once | 4 cores, 16 GB | 1000 epochs: Conv1D/MLP ~5 h (18–19 s/epoch), Conv2D ~10.6 h (38 s) |
 | regression c1 (20 frames) | 7 × 5, ≤ 3 | 4 cores, 48 GB | Conv1D 5 s/epoch |
 | regression c2 | 7 × 5, ≤ 3 | 4 cores, 16 GB | Conv1D 3 s/epoch |
 | regression c3 + c4 | 7 × 5, ≤ 6, each after its own sq | 4 cores, 16 GB | MLP 2 s/epoch each (8 cores) |
-| regression predict | 7 × 5, ≤ 6 | 4 cores, 40 GB | *pending* |
-| regression score | — | 4 cores, 48 GB | *pending* |
+| regression predict | 7 × 5, ≤ 6 | 4 cores, 40 GB | 18–61 min per model-seed (c1–c4, both test sets) |
+| regression score | — | 4 cores, 48 GB | 5.1–6.2 h (144 prediction files per test set) |
 
 A full regression run is about 1,300 core-hours; at the default throttles (≤ 96 cores) it takes about 34 h.
 

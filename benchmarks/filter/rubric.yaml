@@ -1,10 +1,9 @@
 # MLCommons Science Benchmarks Ontology rubric (arXiv:2511.05614 §III); score with benchmark-builder scripts/score_benchmark.py
 benchmark_name: smartpixels-filter
-scored_date: '2026-11-10'
-notes: 'Scored 2026-11-10 (draft, before publication). Caveats: (1) the repository and reference weights are not public yet,
-  so code_available, publicly_available and baseline_open are false until they are. (2) The reference run is still in progress
-  (2:1:1 filter reference, HiPerGator jobs 50655964-66); metrics_evaluated flips when its leaderboard is committed. (3) paper_exists counts the papers that define the task, data and reference models; no paper
-  describes this benchmark package itself.'
+scored_date: '2026-11-14'
+notes: 'Re-scored 2026-11-14 after the reference run was committed (reference_results/, weights/). Caveats: (1) the repository
+  is not public yet, so code_available, publicly_available and baseline_open stay false until it is pushed. (2) paper_exists
+  counts the papers that define the task, data and reference models; no paper describes this benchmark package itself.'
 software_environment:
 - id: code_available
   description: The code is available to reproduce the baseline reference solution.
@@ -22,8 +21,8 @@ software_environment:
 - id: code_runs_unmodified
   description: The code does not require any modifications to run.
   met: true
-  evidence: Ran unmodified from a git archive on HiPerGator (filter reference 5faa4ba, jobs 50647290-93; docs/VALIDATION.md
-    §6).
+  evidence: Ran unmodified from git archives on HiPerGator (1:1:1 run 5faa4ba, jobs 50647290-93; 2:1:1 reference d74c027,
+    jobs 50655964-66; docs/VALIDATION.md §6).
 - id: env_specified
   description: The environment is either containerized, or environment details and setup instructions are provided.
   met: true
@@ -84,7 +83,7 @@ reference_solution:
 - id: publicly_available
   description: A reference solution is publicly available.
   met: false
-  evidence: Code and weights not published.
+  evidence: Code and the median-seed weights (weights/MANIFEST.json, committed) are in the repository, which is not published.
 - id: well_documented
   description: The provided reference solution is well documented.
   met: true
@@ -95,9 +94,9 @@ reference_solution:
   evidence: benchmarks/filter/README.md §4 Requirements; docs/HIPERGATOR.md job table with measured resources.
 - id: metrics_evaluated
   description: All metrics defined as part of the benchmark are evaluated as part of the reference solution.
-  met: false
-  evidence: score_all.sh evaluates every metric, but the reference run (2:1:1 filter reference, HiPerGator jobs 50655964-66)
-    has not finished.
+  met: true
+  evidence: Every metric of benchmarks/filter/README.md §3 is in reference_results/filter/<split>/<model>/metrics.json for each
+    reference model and seed, summarized in reference_results/filter/LEADERBOARD.md (docs/VALIDATION.md §1.4).
 - id: baseline_open
   description: The baseline solution/model is openly available for study (architecture, hyperparameters, and training code
     if a neural network).
