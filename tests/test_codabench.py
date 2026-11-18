@@ -160,14 +160,16 @@ def regression_bundle(fixture_data, tmp_path_factory):
 def test_regression_bundle_scores_match_pipeline_and_discriminate(regression_bundle):
     tmp, res, rc, truths = regression_bundle
     b = tmp / "build" / "bundle"
-    assert rc == 0 and sorted(p.name for p in (b / "solution").iterdir()) == [
-        "descriptor.json", "predictions_2s.csv", "predictions_3s.csv"]
+    assert rc == 0 and sorted(p.name for p in (b / "solution").iterdir()) == ["descriptor.json", "predictions_3s.csv"]
+    assert sorted(p.name for p in (b / "reference_data").iterdir()) == ["truth_3s.csv"]
+    with zipfile.ZipFile(res / "codabench" / "ref_s0_submission.zip") as z:
+        assert sorted(z.namelist()) == ["descriptor.json", "predictions_3s.csv"]
     code, ref = bb.run_scoring(b, b / "starting_kit" / "sample_submission.zip")
     _, slim = bb.run_scoring(b, res / "codabench" / "slim_s0_submission.zip")
     _, base = bb.run_scoring(b, tmp / "build" / "extra" / "baseline_submission.zip")
     assert code == 0 and ref["asic"] == 1 and ref["3s_rank_i68"] == pytest.approx(1.0)
     assert slim["3s_I68_alpha"] is None and slim["3s_rank_i68"] == pytest.approx(2.0, rel=0.3)
-    assert base["3s_rank_i68"] > 3 and base["2s_rank_i68"] > 3
+    assert base["3s_rank_i68"] > 3 and not any(k.startswith("2s_") for k in ref)
 
 
 @pytest.mark.parametrize("edit,needle", [
@@ -177,9 +179,7 @@ def test_regression_bundle_scores_match_pipeline_and_discriminate(regression_bun
 ])
 def test_regression_malformed_submissions_fail(regression_bundle, tmp_path, edit, needle):
     tmp, _, _, truths = regression_bundle
-    members = {f"predictions_{s}.csv": reg_pred(t, 1.0).to_csv(index=False) for s, t in truths.items()}
-    members["predictions_2s.csv"] = edit(reg_pred(truths["2s"], 1.0)).to_csv(index=False)
-    code, err = run(tmp / "build", members, tmp_path)
-    assert code == 1 and "predictions_2s.csv" in err and needle in err
-    code, err = run(tmp / "build", {"predictions_3s.csv": members["predictions_3s.csv"]}, tmp_path, "one.zip")
-    assert code == 1 and "'predictions_2s.csv' not found" in err
+    code, err = run(tmp / "build", {"predictions_3s.csv": edit(reg_pred(truths["3s"], 1.0)).to_csv(index=False)}, tmp_path)
+    assert code == 1 and "predictions_3s.csv" in err and needle in err
+    code, err = run(tmp / "build", {"predictions_2s.csv": reg_pred(truths["2s"], 1.0).to_csv(index=False)}, tmp_path, "one.zip")
+    assert code == 1 and "'predictions_3s.csv' not found" in err

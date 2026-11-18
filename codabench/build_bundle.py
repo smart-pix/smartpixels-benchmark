@@ -3,7 +3,8 @@
     uv run python codabench/build_bundle.py --task filter --results $SPB_RESULTS/filter --solution QM2_s4
     uv run python codabench/build_bundle.py --task regression --results $SPB_RESULTS/regression
 
-Generated from the package, never copied by hand: reference_data/truth_<split>.csv (`truth.truth_frame`),
+Only the splits in `truth.CODABENCH_SPLITS` go in (regression: 3s). Generated from the package, never copied
+by hand: reference_data/truth_<split>.csv (`truth.truth_frame`),
 starting_kit/<split>_sample_ids.csv, scoring_program/metrics.py (the scoring functions of `<task>.score`,
 copied by source) with the metric's reference JSON, solution/ and starting_kit/sample_submission.zip (the
 pipeline zip `<results>/codabench/<solution>_submission.zip`), and build/<task>/extra/baseline_submission.zip
@@ -105,7 +106,7 @@ def check(task: str, bundle: Path, results: Path, zips: list[Path]) -> int:
             continue
         prefix = (lambda s: "") if task == "filter" else (lambda s: f"{s}_")
         bad = []
-        for s in truth.SPLITS:
+        for s in truth.CODABENCH_SPLITS:
             m = results / s / name / "metrics.json"
             if m.exists():
                 ref = json.loads(m.read_text())["metrics"]
@@ -136,7 +137,7 @@ def build(task: str, results: Path, solution: str | None, data: Path | None, ref
     shutil.copy(reference, bundle / "scoring_program" / "reference.json")
 
     baseline = {}
-    for split in truth.SPLITS:
+    for split in truth.CODABENCH_SPLITS:
         t = truth.truth_frame(split, data)
         t.to_csv(bundle / "reference_data" / f"truth_{split}.csv", index=False)
         t[["sample_id"]].to_csv(bundle / "starting_kit" / f"{split}_sample_ids.csv", index=False)

@@ -11,6 +11,7 @@ import pandas as pd
 from smartpix_bench.regression import data as rd
 
 SPLITS = rd.TEST_SETS
+CODABENCH_SPLITS = ("3s",)  # keeps bundle and uploads under Codabench's legacy 300 MB cap; 2s stays local
 
 
 def truth_frame(split: str, data_dir: Path | None = None) -> pd.DataFrame:

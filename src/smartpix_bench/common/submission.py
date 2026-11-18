@@ -2,8 +2,8 @@
 
     python -m smartpix_bench.common.submission --task filter --results RESULTS/filter
 
-For each model with predictions for every split of the task, writes <results>/codabench/<model>_submission.zip
-holding predictions_<split>.csv (exactly the scored ids, in truth order) and, if present, descriptor.json,
+For each model with predictions for every Codabench split of the task (`truth.CODABENCH_SPLITS`), writes
+<results>/codabench/<model>_submission.zip holding predictions_<split>.csv (exactly the scored ids, in truth order) and, if present, descriptor.json,
 all at the zip root. An asic-track descriptor that fails its checks, a missing scored id, or an invalid
 value writes no zip and makes the exit status non-zero.
 """
@@ -41,16 +41,17 @@ def select_scored(pred: pd.DataFrame, ids: pd.Series, columns: list[str], check,
 def package(task: str, results: Path, cache_dir: Path | None, out_dir: Path) -> int:
     truth = importlib.import_module(f"smartpix_bench.{task}.truth")
     sc = importlib.import_module(f"smartpix_bench.{task}.score")
-    ids = {s: truth.scored_ids(s, cache_dir) for s in truth.SPLITS}
+    splits = truth.CODABENCH_SPLITS
+    ids = {s: truth.scored_ids(s, cache_dir) for s in splits}
     failed = 0
-    for path in sorted((results / truth.SPLITS[0]).glob("predictions_*.csv")):
+    for path in sorted((results / splits[0]).glob("predictions_*.csv")):
         name = path.stem.removeprefix("predictions_")
         try:
             frames = {}
-            for s in truth.SPLITS:
+            for s in splits:
                 pred = pd.read_csv(results / s / f"predictions_{name}.csv", dtype={"sample_id": str})
                 frames[s] = select_scored(pred, ids[s], sc.OUTPUT_COLUMNS, sc.check_values, f"{name}/{s}")
-            desc_path = results / truth.SPLITS[0] / f"descriptor_{name}.json"
+            desc_path = results / splits[0] / f"descriptor_{name}.json"
             desc = json.loads(desc_path.read_text()) if desc_path.exists() else None
             if desc and desc.get("track") == "asic" and (v := sc.asic_violations(desc)):
                 raise SubmissionError(f"{name}: asic track violations {v}")

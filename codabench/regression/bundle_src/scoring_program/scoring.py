@@ -1,7 +1,7 @@
 """Smart Pixels regression scoring program (results submission).
 
-The upload is a zip with predictions_3s.csv and predictions_2s.csv (sample_id, x-midplane, y-midplane, cotAlpha,
-cotBeta, optional sigma_<target>; empty where a target is not predicted) for every contained cluster and, for
+The upload is a zip with predictions_3s.csv (sample_id, x-midplane, y-midplane, cotAlpha,
+cotBeta, optional sigma_<target>; empty where a target is not predicted) for every contained cluster of the 3s test set and, for
 the asic track, descriptor.json, at the zip root. Metrics are metrics.py, generated from the benchmark's own
 smartpix_bench.regression.score, with the ranking reference I68 in reference.json.
 """
@@ -22,12 +22,9 @@ reference_dir = os.path.join(ROOT, "input", "ref")
 prediction_dir = os.path.join(ROOT, "input", "res")
 score_dir = os.path.join(ROOT, "output")
 
-SPLITS = ("3s", "2s")
-SUBMISSION_FILES = ["predictions_3s.csv", "predictions_2s.csv"]
-PREDICTION_FILES = {
-    "3s": os.path.join(prediction_dir, "predictions_3s.csv"),
-    "2s": os.path.join(prediction_dir, "predictions_2s.csv"),
-}
+SPLITS = ("3s",)
+SUBMISSION_FILES = ["predictions_3s.csv"]
+PREDICTION_FILES = {"3s": os.path.join(prediction_dir, "predictions_3s.csv")}
 DESCRIPTOR_FILE = os.path.join(prediction_dir, "descriptor.json")
 
 

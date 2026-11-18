@@ -11,6 +11,7 @@ import pandas as pd
 from smartpix_bench.filter import cache
 
 SPLITS = ("test",)
+CODABENCH_SPLITS = SPLITS
 
 
 def truth_frame(split: str, cache_dir: Path | None = None) -> pd.DataFrame:

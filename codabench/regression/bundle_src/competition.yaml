@@ -19,8 +19,8 @@ pages:
 
 tasks:
   - index: 0
-    name: Regression test sets 3s and 2s
-    description: Score predictions_3s.csv and predictions_2s.csv (and descriptor.json for the asic track) against the test-set truth.
+    name: Regression test set 3s
+    description: Score predictions_3s.csv (and descriptor.json for the asic track) against the 3s truth.
     reference_data: reference_data/
     scoring_program: scoring_program/
 
@@ -33,7 +33,7 @@ solutions:
 phases:
   - index: 0
     name: Open Benchmark
-    description: Open, ongoing benchmark on the public 3s and 2s test sets.
+    description: Open, ongoing benchmark on the public 3s test set (2s is scored by the benchmark repository only).
     start: 1-1-2027
     max_submissions_per_day: 5
     execution_time_limit: 1200
@@ -41,7 +41,7 @@ phases:
       - 0
     starting_kit: starting_kit
 
-# Ranked on the 3s set; one table for both tracks, the asic column is 1 for a descriptor that passes the asic checks.
+# Ranked on the 3s set, the only one scored here (2s is left out to fit the upload size cap); one table for both tracks, the asic column is 1 for a descriptor that passes the asic checks.
 leaderboards:
   - title: Results
     key: main
@@ -52,53 +52,28 @@ leaderboards:
         index: 0
         sorting: asc
         precision: 4
-      - title: 2s rank_i68
-        key: 2s_rank_i68
-        index: 1
-        sorting: asc
-        precision: 4
       - title: 3s I68 x (µm)
         key: 3s_I68_x
-        index: 2
+        index: 1
         sorting: asc
         precision: 4
       - title: 3s I68 y (µm)
         key: 3s_I68_y
-        index: 3
+        index: 2
         sorting: asc
         precision: 4
       - title: 3s I68 beta (°)
         key: 3s_I68_beta
-        index: 4
+        index: 3
         sorting: asc
         precision: 4
       - title: 3s I68 alpha (°)
         key: 3s_I68_alpha
-        index: 5
-        sorting: asc
-        precision: 4
-      - title: 2s I68 x (µm)
-        key: 2s_I68_x
-        index: 6
-        sorting: asc
-        precision: 4
-      - title: 2s I68 y (µm)
-        key: 2s_I68_y
-        index: 7
-        sorting: asc
-        precision: 4
-      - title: 2s I68 beta (°)
-        key: 2s_I68_beta
-        index: 8
-        sorting: asc
-        precision: 4
-      - title: 2s I68 alpha (°)
-        key: 2s_I68_alpha
-        index: 9
+        index: 4
         sorting: asc
         precision: 4
       - title: ASIC track
         key: asic
-        index: 10
+        index: 5
         sorting: desc
         precision: 0
