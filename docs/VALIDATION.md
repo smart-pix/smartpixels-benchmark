@@ -304,7 +304,8 @@ Each line: what the paper or upstream says, what this benchmark does, and the ev
 | Regression smoke | 560ee15 | 50653219 | exit 0 |
 | Regression reference | 0731db5 | sq 50657941, c1 50657942, c2 50657943, c3c4 50657944, predict 50657945, score 50657946 | all exit 0; Slim rows superseded (§8) |
 | Regression Slim retrain | afd4a9a | sq 51054890, c1 51054891, c2 51054892, c3c4 51054893, predict 51054894, score 51054895 (tasks 20–34) | all exit 0 |
-| Regression Codabench bundle, tiers 1–4 | afd4a9a | build + tier 4 51318708, tiers 1–3 51902398 | exit 0; 148 zips match (codabench/README.md) |
+| Regression Codabench bundle (3s and 2s), tiers 1–4 | afd4a9a | build + tier 4 51318708, tiers 1–3 51902398 | exit 0; 144 zips match; superseded by 3s only |
+| Regression Codabench bundle (3s only), tiers 1–4 | 75ebfca | 51905203 | exit 0; 144 zips match on 3s; zip 265 MB (codabench/README.md) |
 
 ## 7. Tools
 

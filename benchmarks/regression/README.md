@@ -31,7 +31,7 @@ The full reference (7 models × 5 configurations × 5 seeds, about 1,300 core-ho
 `bash slurm/submit.sh -A <group> regression` ([docs/HIPERGATOR.md](../../docs/HIPERGATOR.md)). To score your own
 model, write `results/regression/<3s|2s>/predictions_<name>.csv` (every contained cluster; columns below) and, for
 the asic track, `descriptor_<name>.json`, then rerun `scripts/score_all.sh regression`; it also writes your
-Codabench zip.
+Codabench zip, which carries 3s only (the competition does not score 2s, to keep uploads small).
 
 ## 1. Problem specification and constraints
 

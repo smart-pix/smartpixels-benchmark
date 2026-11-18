@@ -1,14 +1,13 @@
 # MLCommons Science Benchmarks Ontology rubric (arXiv:2511.05614 §III); score with benchmark-builder scripts/score_benchmark.py
 benchmark_name: smartpixels-regression
-scored_date: '2026-11-14'
-notes: 'Re-scored 2026-11-14 after the reference run was committed (reference_results/, weights/). Caveats: (1) the repository
-  is not public yet, so code_available, publicly_available and baseline_open stay false until it is pushed. (2) paper_exists
+scored_date: '2026-11-18'
+notes: 'Re-scored 2026-11-18 after the repository was made public (https://github.com/lgray/smartpixels-benchmark). Caveat: paper_exists
   counts the papers that define the task, data and reference models; no paper describes this benchmark package itself.'
 software_environment:
 - id: code_available
   description: The code is available to reproduce the baseline reference solution.
-  met: false
-  evidence: Complete in the repository (src/smartpix_bench, slurm/), but the repository is not published.
+  met: true
+  evidence: Public repository https://github.com/lgray/smartpixels-benchmark (src/smartpix_bench, slurm/, scripts/).
 - id: code_complete
   description: The provided code is complete.
   met: true
@@ -83,8 +82,8 @@ performance_metrics:
 reference_solution:
 - id: publicly_available
   description: A reference solution is publicly available.
-  met: false
-  evidence: Code and the median-seed weights (weights/MANIFEST.json, committed) are in the repository, which is not published.
+  met: true
+  evidence: Code and the median-seed weights (weights/<task>/, sha256 in weights/MANIFEST.json) are public at https://github.com/lgray/smartpixels-benchmark.
 - id: well_documented
   description: The provided reference solution is well documented.
   met: true
@@ -101,9 +100,8 @@ reference_solution:
 - id: baseline_open
   description: The baseline solution/model is openly available for study (architecture, hyperparameters, and training code
     if a neural network).
-  met: false
-  evidence: Architecture, hyperparameters and training code are in the repository (benchmarks/regression/README.md §4), which
-    is not published.
+  met: true
+  evidence: Architecture, hyperparameters and training code are public at https://github.com/lgray/smartpixels-benchmark (benchmarks/regression/README.md §4).
 documentation:
 - id: task_explained
   description: The task is explained and well documented.

@@ -43,10 +43,11 @@ SPB_RESULTS=results uv run bash scripts/score_all.sh filter|regression
 ```
 
 This writes `<split>/<name>/{metrics.json, METRICS.md}`, rebuilds `LEADERBOARD.md` with your rows, and packages
-`results/<task>/codabench/<name>_submission.zip` (all splits at the zip root, plus `descriptor.json`). It refuses
-to package a model with a missing id, a duplicate id, a missing column or an invalid value (filter: pred ∉ {0, 1, 2}
-or a probability not finite or outside [0, 1]; regression: an infinite value), and names the problem. That zip is the file to
-upload to Codabench ([codabench/README.md](codabench/README.md)).
+`results/<task>/codabench/<name>_submission.zip` (the Codabench splits at the zip root, plus `descriptor.json`; the
+regression competition scores 3s only, so its zip holds only `predictions_3s.csv`). It refuses to package a model
+with a missing id, a duplicate id, a missing column or an invalid value (filter: pred ∉ {0, 1, 2} or a probability
+not finite or outside [0, 1]; regression: an infinite value), and names the problem. That zip is the file to upload
+to Codabench ([codabench/README.md](codabench/README.md)).
 
 **Rules.** Train on the train split only (validation is yours to use). The test labels are public, so the
 leaderboard relies on you not fitting, tuning or selecting on them. Label columns are not inputs

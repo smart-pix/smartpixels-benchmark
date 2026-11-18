@@ -12,5 +12,5 @@ There are two tracks:
 - **open**: no constraints.
 
 The reference models and the full protocol are in the benchmark card (`benchmarks/regression/README.md` in the
-benchmark repository). Das et al., arXiv:2602.15946, define the task; the dataset is Zenodo
-10.5281/zenodo.18472791 (CC-BY-4.0).
+benchmark repository, https://github.com/lgray/smartpixels-benchmark). Das et al., arXiv:2602.15946, define the
+task; the dataset is Zenodo 10.5281/zenodo.18472791 (CC-BY-4.0).

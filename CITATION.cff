@@ -9,6 +9,7 @@ authors:
 - family-names: Gray
   given-names: Lindsey
 license: Apache-2.0
+repository-code: https://github.com/lgray/smartpixels-benchmark
 version: 0.1.0
 references:
 - type: article

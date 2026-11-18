@@ -45,7 +45,8 @@ baseline.
 | | filter | regression |
 |---|---|---|
 | Ranking key (index 0) | `background_rejection_at_eff`, desc; bounded in [0, 1] | `3s_rank_i68`, asc; bounded below by 0 |
-| Other columns | argmax rejection, efficiency, data reduction | 2s rank, I68 of x, y, β, α on both sets |
+| Splits in the bundle and uploads | `test` | `3s` only (`truth.CODABENCH_SPLITS`); 2s is scored by `score_all.sh` alone |
+| Other columns | argmax rejection, efficiency, data reduction | 3s I68 of x, y, β, α |
 | Solution / sample submission | QM2 seed with the median validation primary metric (asic track) | the ranking reference seed (Full_MLP c4, from `i68_reference.json`) |
 | Weak baseline | constant training class priors | training mean, σ = training std |
 
@@ -75,19 +76,24 @@ The bundle is 194 MB, the zip 70 MB.
 - Tier 4: `codalab/codalab-legacy:py312` (Python 3.12.13, numpy 1.26.4, pandas 2.2.3), run with Apptainer on
   HiPerGator. The sample and baseline scores are identical to the host run. There is no local Docker engine.
 
-**Regression, real data.** Built on HiPerGator on 2026-11-14 from the reference run (`runs/regression_0731db5`,
-code afd4a9a, job 51318708) against the shipped `i68_reference.json` (Full_MLP c4 seed 2). The bundle is 963 MB,
-the zip 511 MB, and the sample submission 207 MB.
-- All 148 pipeline zips (140 model-seeds, 8 baselines) score identically to their `metrics.json`.
+**Regression, real data, 3s only.** Built on HiPerGator on 2026-11-18 from the reference run
+(`runs/regression_0731db5`; code 75ebfca, job 51905203) against the shipped `i68_reference.json` (Full_MLP c4
+seed 2). The zips were repackaged for 3s only. Sizes:
+- bundle directory 478 MiB, `competition_bundle.zip` 265 MB;
+- sample submission 103 MB, the largest pipeline zip 104 MB, the baseline 4.2 MB.
+
+Both zips are under the legacy 300 MB cap. The 2026-11-14 build with 2s (job 51318708) was 511 MB, with
+207 MB uploads.
+- All 144 pipeline zips (140 model-seeds, 4 baselines) score identically to their 3s `metrics.json`.
 - Discrimination on 3s: the solution, Full_MLP_c4_s2, scores `3s_rank_i68` = 1.0. The constant baseline (training
   mean, σ = training std) scores 8.06, and reference models span 0.47–1.61 outside the failed Max_Conv2D seeds
   (1.98–8.06; docs/VALIDATION.md R15).
-- Validator tiers 1–3 (job 51902398): pass except the missing logo. As for the filter, the validator warns that
+- Validator tiers 1–3: pass except the missing logo. As for the filter, the validator warns that
   `SUBMISSION_FILES` omits the optional `descriptor.json`.
 - Malformed uploads fail and name the problem:
   - missing sample: "predictions_3s.csv has no prediction for 1 of 1377888 clusters";
   - infinite x: "predictions_3s.csv: infinite predictions";
-  - missing file: "'predictions_2s.csv' not found in the submission".
+  - missing file: "'predictions_3s.csv' not found in the submission".
 - A wrapping folder is flagged by the validator, and the scoring program still scores it.
 - Tier 4: `codalab/codalab-legacy:py312` (Python 3.12.13, numpy 1.26.4, pandas 2.2.3) run with Apptainer on
   HiPerGator gives exit 0 and the same `scores.json` as the host for the sample and the baseline.
@@ -98,6 +104,4 @@ the zip 511 MB, and the sample submission 207 MB.
 - [ ] Replace `pages/terms_and_conditions.md`, which is a marked placeholder, with the organizers' terms.
 - [ ] Set the phase `start` (placeholder 1-1-2027), and optionally `contact_email`.
 - [ ] Confirm the titles, `max_submissions_per_day` (5) and `execution_time_limit` (600 s filter, 1200 s regression).
-- [ ] Regression size: the bundle zip is 511 MB (truth for 2.8 M clusters plus the solution), and a submission is
-  about 207 MB. Check both against the Codabench instance's upload limits, or host the reference data separately.
-- [ ] Replace "the benchmark repository" in `pages/` with its URL once it is public.
+- [x] The repository URL is in each `pages/overview.md`.
