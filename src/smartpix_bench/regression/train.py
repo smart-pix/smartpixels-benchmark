@@ -27,7 +27,7 @@ VAL_NOISE_SEED = 0
 
 
 def weights_dir() -> Path:
-    return io.env_path("WEIGHTS_DIR", "weights") / "regression"
+    return io.env_path("WEIGHTS_DIR", "results/weights") / "regression"  # weights/ holds the committed reference checkpoints
 
 
 def load_train_val(slices, data_dir=None):

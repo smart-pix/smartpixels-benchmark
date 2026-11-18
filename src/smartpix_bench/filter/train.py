@@ -23,7 +23,7 @@ EPOCHS, BATCH, PATIENCE, LR = 200, 1024, 20, 1e-3
 
 
 def weights_dir() -> Path:
-    return io.env_path("WEIGHTS_DIR", "weights") / "filter"
+    return io.env_path("WEIGHTS_DIR", "results/weights") / "filter"  # weights/ holds the committed reference checkpoints
 
 
 def fit(model: str, x_tr, y_tr, x_va, y_va, seed: int, epochs: int = EPOCHS):
