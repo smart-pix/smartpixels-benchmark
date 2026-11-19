@@ -352,15 +352,15 @@
   },
   "regression/Slim_MLP_c1_s0.meta.json": {
    "role": "reference",
-   "sha256": "ccbb67f2841df26c6feffd9f02f1e8d1f9a7a823d04775cee82cfa26d7353a85",
-   "bytes": 177,
-   "model": "smartpix_bench.regression.models Slim_MLP c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+   "sha256": "15d9e2eebaa5020e777206e477b22d0f59e8810e038eabb36ae1fed9db1bac12",
+   "bytes": 239,
+   "model": "smartpix_bench.regression.models Slim_MLP c1 (20 slices, float; inputs standardized, meta input_standardize); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 3ddf8e2"
   },
   "regression/Slim_MLP_c1_s0.weights.h5": {
    "role": "reference",
-   "sha256": "ca6d55bbf17e04b40a2ca053c7499133d382bb97e09021d66b3045af567fce6e",
+   "sha256": "82680aa36538bd02530dacb96b41f6ebff1cacc933066f690ed7b067dbdc9947",
    "bytes": 193392,
-   "model": "smartpix_bench.regression.models Slim_MLP c1 (20 slices, float); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit afd4a9a"
+   "model": "smartpix_bench.regression.models Slim_MLP c1 (20 slices, float; inputs standardized, meta input_standardize); trained on x-midplane, y-midplane, cotBeta / train-split 99th-pct scale; 1000 epochs, best validation; seed 0, the median by validation mean I68 (x, y, beta); commit 3ddf8e2"
   },
   "regression/Slim_MLP_c2_s4.meta.json": {
    "role": "reference",

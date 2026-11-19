@@ -115,7 +115,7 @@ both sets in [reference_results/regression/LEADERBOARD.md](../../reference_resul
 | rank_i68 (3s) | c1 | c2 | c3 | c4 (asic) | c4 I68 x / y µm, β ° |
 |---|---|---|---|---|---|
 | Full_MLP | 0.667 ± 0.030 | 0.800 ± 0.021 | 0.927 ± 0.017 | 1.021 ± 0.035 | 15.18 / 2.89 / 5.80 |
-| Slim_MLP | 0.977 ± 0.040 | 0.892 ± 0.011 | 0.940 ± 0.028 | 1.052 ± 0.048 | 14.18 / 2.77 / 6.92 |
+| Slim_MLP | 0.617 ± 0.008 | 0.892 ± 0.011 | 0.940 ± 0.028 | 1.052 ± 0.048 | 14.18 / 2.77 / 6.92 |
 | Slim_Conv1D | 0.639 ± 0.021 | 0.743 ± 0.021 | 0.918 ± 0.018 | 1.148 ± 0.027 | 16.25 / 2.93 / 7.43 |
 | Full_Conv1D | 0.490 ± 0.022 | 0.703 ± 0.027 | 0.925 ± 0.020 | 1.163 ± 0.052 | 16.90 / 3.11 / 7.09 |
 | Full_Conv2D | 0.611 ± 0.032 | 0.962 ± 0.070 | 1.087 ± 0.017 | 1.349 ± 0.041 | 21.44 / 3.33 / 8.11 |
@@ -123,8 +123,8 @@ both sets in [reference_results/regression/LEADERBOARD.md](../../reference_resul
 | Max_Conv2D | 0.673 ± 0.010 | 1.056 ± 0.081 | 2.892 ± 2.916 | 2.844 ± 2.915 | 45.76 / 9.73 / 11.63 |
 
 Against the paper's stated relations (VALIDATION §2.1): two frames cost 23–69 % in I68 for the Conv2D models and
-Full_Conv1D (paper 30–40 %, some angles > 60 %), less for Full_MLP and Slim_Conv1D, and Slim_MLP is better at two
-frames; 2-bit inputs change y and β by −10 to +30 % and cost 15–65 % in x (paper 5–10 %); the Conv2D models rank
+Full_Conv1D (paper 30–40 %, some angles > 60 %), less for Full_MLP and Slim_Conv1D; for Slim_MLP x is
+unchanged and y, β cost 53–86 %; 2-bit inputs change y and β by −10 to +30 % and cost 15–65 % in x (paper 5–10 %); the Conv2D models rank
 last at c2–c4; Full and Slim agree within 6 % at c3 and c4. Baselines on 3s: Barycenter x / y I68 19.6 / 2.47 µm;
 LocalReco 13.2 / 3.22 µm; corrected Geometric α / β I68 3.76° / 6.79°, against Full_MLP c3 14.3 / 2.53 µm and 2.90°
 / 5.25°.
@@ -156,8 +156,9 @@ and the four configurations.
 - Max_Conv2D has 1869 parameters, the paper 1898 (R1). Its clipped likelihood traps or collapses 7 of its 15
   sq / c3 / c4 trainings (R15); all seeds stay in the mean, and its c3 reference checkpoint (seed 1, the median
   by validation) is one of the angle-collapsed ones.
-- Slim_MLP is worse at 20 frames than at 2 in every seed, against the paper's trend (R16): the regularizers make
-  up 44 % of its loss and its training on raw 20-frame inputs is unstable. The paper's recipe is kept.
+- Slim_MLP c1 deviates from the paper's recipe: its inputs are standardized (nonzero pixels to zero mean, unit
+  std). On raw 20-frame inputs its training was unstable and it ranked worse than at 2 frames (0.977 vs 0.892);
+  standardized, it ranks 0.617 (R16).
 - The ranking score and the SoftQuantize details where the paper's equations are inconsistent are this
   benchmark's choices (R4, R13).
 

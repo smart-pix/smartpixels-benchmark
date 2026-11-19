@@ -107,21 +107,22 @@ rank_i68 on 3s (mean ± sample std over 5 seeds; lower is better; 2s is within 0
 | Full_Conv1D | 0.490 ± 0.022 | 0.703 ± 0.027 | 0.925 ± 0.020 | 1.163 ± 0.052 |
 | Full_MLP | 0.667 ± 0.030 | 0.800 ± 0.021 | 0.927 ± 0.017 | 1.021 ± 0.035 |
 | Slim_Conv1D | 0.639 ± 0.021 | 0.743 ± 0.021 | 0.918 ± 0.018 | 1.148 ± 0.027 |
-| Slim_MLP | 0.977 ± 0.040 | 0.892 ± 0.011 | 0.940 ± 0.028 | 1.052 ± 0.048 |
+| Slim_MLP | 0.617 ± 0.008 | 0.892 ± 0.011 | 0.940 ± 0.028 | 1.052 ± 0.048 |
 | Full_Conv2D | 0.611 ± 0.032 | 0.962 ± 0.070 | 1.087 ± 0.017 | 1.349 ± 0.041 |
 | Slim_Conv2D | 0.763 ± 0.016 | 0.990 ± 0.017 | 1.146 ± 0.026 | 1.395 ± 0.031 |
 | Max_Conv2D | 0.673 ± 0.010 | 1.056 ± 0.081 | 2.892 ± 2.916 | 2.844 ± 2.915 |
 
-Max_Conv2D c3/c4 include failed seeds, kept in the mean (§3 R15). The paper gives its resolutions only in
+Max_Conv2D c3/c4 include failed seeds, kept in the mean (§3 R15). Slim_MLP c1 trains on standardized inputs
+(§3 R16). The paper gives its resolutions only in
 figures (Fig 3; its data file was never committed upstream), so the comparison is against what its text states.
 Ratios are of seed-mean I68 on 3s (2s agrees within 0.04 outside Max_Conv2D c3):
 
 | Paper statement (§1.3) | This benchmark | Verdict |
 |---|---|---|
-| Two frames (c2) are 30–40 % worse than 20 (c1), a few angles more than 60 % | x / y / α / β: Max_Conv2D +63 / +40 / +49 / +67 %, Full_Conv2D +60 / +43 / +46 / +69 %, Full_Conv1D +23 / +42 / +29 / +66 %, Slim_Conv2D x / y / β +43 / +27 / +24 %, Slim_Conv1D +15 / +6 / +27 %, Full_MLP +5 / +16 / 0 / +36 %, Slim_MLP −17 / −3 / −7 % | close for the Conv2D models and Full_Conv1D, β the largest; smaller for the MLPs and Slim_Conv1D; inverted for Slim_MLP (§3 R16) |
+| Two frames (c2) are 30–40 % worse than 20 (c1), a few angles more than 60 % | x / y / α / β: Max_Conv2D +63 / +40 / +49 / +67 %, Full_Conv2D +60 / +43 / +46 / +69 %, Full_Conv1D +23 / +42 / +29 / +66 %, Slim_Conv2D x / y / β +43 / +27 / +24 %, Slim_Conv1D +15 / +6 / +27 %, Slim_MLP +1 / +53 / +86 % (standardized c1, R16), Full_MLP +5 / +16 / 0 / +36 % | close for the Conv2D models and Full_Conv1D, β the largest; larger in y and β for Slim_MLP; smaller for Full_MLP and Slim_Conv1D |
 | Two-bit inputs at the optimal thresholds (c3) are typically 5–10 % worse than c2 | y +7 to +23 %; β −10 to +30 %; x +15 to +65 % (Full_Conv2D 15, Slim_Conv2D 25, Slim_MLP 29, Slim_Conv1D 46, Full_MLP 50, Full_Conv1D 65 %); Max_Conv2D dominated by failed seeds | close for y and β, x degrades more than stated |
 | Conv2D models have the largest resolution on most parameters; Conv1D and MLP are similar | the three Conv2D models rank last at c2, c3 and c4; at c1 Full_Conv2D ranks second; Conv1D and MLP models lie within 0.03 of each other at c3 and 0.15 at c4 | reproduced for c2–c4 |
-| Little dependence on the number of outputs (Full vs Slim) | Full / Slim rank at c3: 1.087 / 1.146, 0.925 / 0.918, 0.927 / 0.940; at c4: 1.349 / 1.395, 1.163 / 1.148, 1.021 / 1.052 (Conv2D, Conv1D, MLP); at c1 Slim is 25–46 % worse | reproduced for c3 and c4 |
+| Little dependence on the number of outputs (Full vs Slim) | Full / Slim rank at c3: 1.087 / 1.146, 0.925 / 0.918, 0.927 / 0.940; at c4: 1.349 / 1.395, 1.163 / 1.148, 1.021 / 1.052 (Conv2D, Conv1D, MLP); at c1 Slim_Conv2D / Slim_Conv1D are 25 / 30 % worse and Slim_MLP 7 % better | reproduced for c3 and c4 |
 | Quantization (c4) shifts some residual means, the Conv2D models the most | c3 → c4 shift: β̄ +0.51° Full_Conv2D, +0.49° Slim_Conv2D, ≤ 0.30° for Conv1D / MLP; x̄ −0.51 µm Slim_Conv2D, but also +0.44 Full_MLP and −0.40 Slim_Conv1D | partly: largest β shift is Conv2D, x shifts are comparable across architectures |
 | σ close to but greater than I68 for x, y, β; σ_α significantly over-estimated | 2 × mean σ / I68 (1 for a Gaussian), Full models c1–c4: x 1.05–1.43, y 1.25–1.71, β 1.16–1.71, α 2.03–3.22; Max_Conv2D c1 / c2 x 1.05–1.16, β 1.12–1.24, α 2.00–2.06 | reproduced, y and β over-estimated more than "close" |
 
@@ -267,13 +268,29 @@ Each line: what the paper or upstream says, what this benchmark does, and the ev
   All five seeds stay in the mean ± std. The median-validation rule picks c3 **s1, an angle-collapsed
   checkpoint**, as the c3 reference weight (flagged in `weights/MANIFEST.json`); c2 s4 and c4 s3 are healthy.
   Even the healthy c4 seeds (rank 1.47–1.61) rank behind every other c4 model, unlike the paper's Fig 3.
-- **R16 Slim_MLP at 20 frames.** Slim_MLP c1 is worse than its c2 in every seed (rank 0.94–1.03 vs 0.88–0.91 on
-  3s), the one model where the paper's "two frames are worse" does not hold here. It is not a seed failure or
-  early stop: best epochs 729–993 of 1000, no dead ReLUs. On a validation batch the regularizers are 44 % of its
-  loss (data 48, regularizers 38) against 20 % at c2 (37 and 9), and on the raw-electron 20-frame inputs its
-  training loss spikes: in the last 500 epochs 132–175 epochs exceed twice the minimum training loss (none at c2;
-  57–116 for Slim Conv1D / Conv2D c1, which still beat their c2). The recipe is kept as the paper states it (no
-  input standardization, Nadam 1e-3); upstream's data generator can standardize but does so off by default.
+- **R16 Slim_MLP c1 inputs are standardized** (deviation from the paper's recipe; `train.STANDARDIZE_INPUTS`).
+  With the paper's raw-electron inputs Slim_MLP c1 was worse than its c2 in every seed (rank 0.94–1.03 vs
+  0.88–0.91 on 3s), the one model where "two frames are worse" failed. It was not a seed failure or early stop
+  (best epochs 729–993 of 1000, no dead ReLUs). On a validation batch the regularizers were 44 % of its loss (data
+  48, regularizers 38) against 20 % at c2 (37 and 9), and its training loss spiked: in the last 500 epochs 132–175
+  epochs exceeded twice the minimum training loss (none at c2). A 200-epoch probe on 88,899 / 29,853 train /
+  validation clusters (seed 0) compared remedies:
+
+  | Slim_MLP | best val loss | val I68 x / y (µm) / β (°) | spikes (last 100 epochs) | regularizer share |
+  |---|---|---|---|---|
+  | c1, paper recipe (raw inputs, Nadam 1e-3) | 184.0 | 23.81 / 4.23 / 7.67 | 6 | 0.34 |
+  | c1, standardized inputs | 37.0 | 10.77 / 2.20 / 2.85 | 0 | 0.21 |
+  | c1, Nadam 1e-4 | 497.2 | 38.68 / 8.73 / 15.94 | 0 | 0.32 |
+  | c1, standardized + Nadam 1e-4 | 64.7 | 14.48 / 3.21 / 5.24 | 0 | 0.14 |
+  | c2, paper recipe | 88.0 | 13.63 / 3.54 / 6.14 | 0 | 0.17 |
+
+  Standardization alone removes the inversion; the lower rate is stable but far slower. It is upstream's
+  `OptimizedDataGenerator_v3` `to_standardize` (off by default there): one mean and std over the nonzero
+  train-split pixels (882.7 / 1680.7 e), zeros kept, stored in the checkpoint's meta file and applied by `predict`.
+  The full rerun (5 seeds, 1000 epochs) gives rank 0.617 ± 0.008 on 3s (seeds 0.612–0.632; before 0.977 ±
+  0.040), I68 x / y / β 10.62 / 1.51 / 3.44 (before 12.88 / 2.40 / 6.86), with no spikes in any seed. Slim Conv1D /
+  Conv2D c1 also spike (57–116 of the last 500 epochs) but already beat their c2, so their recipe is unchanged, as is
+  Full_MLP's.
 
 ## 4. Training-label audit
 
@@ -306,6 +323,9 @@ Each line: what the paper or upstream says, what this benchmark does, and the ev
 | Regression Slim retrain | afd4a9a | sq 51054890, c1 51054891, c2 51054892, c3c4 51054893, predict 51054894, score 51054895 (tasks 20–34) | all exit 0 |
 | Regression Codabench bundle (3s and 2s), tiers 1–4 | afd4a9a | build + tier 4 51318708, tiers 1–3 51902398 | exit 0; 144 zips match; superseded by 3s only |
 | Regression Codabench bundle (3s only), tiers 1–4 | 75ebfca | 51905203 | exit 0; 144 zips match on 3s; zip 265 MB (codabench/README.md) |
+| Slim_MLP c1 remedy probe, 200 epochs (R16) | 75ebfca + a probe script | 51932787_[0-4] | all exit 0 |
+| Slim_MLP c1 standardized rerun | 3ddf8e2 | train 51935283_[0-4], predict + score 51935284 | all exit 0 |
+| Filter Codabench bundle with logo, tiers 1–4 | ac4c2b9 | 51935279 | exit 0; 25 zips match |
 
 ## 7. Tools
 
@@ -318,3 +338,5 @@ benchmark-builder skill @cf43c37 (layout, rubric, HPC templates). No other exter
 - 2026-11-12: the Slim loss changed from a batch mean to a batch sum (R6, afd4a9a). With the mean every Slim
   model of run 0731db5 predicted a constant (I68_x 128.3 µm); those 75 checkpoints were retrained and their
   rows replaced (outputs kept on HiPerGator in `runs/regression_0731db5/superseded_slim_mean/`).
+- 2026-11-19: Slim_MLP c1 retrained on standardized inputs (R16, 3ddf8e2); rank 0.977 → 0.617 on 3s. The raw-input
+  outputs are kept on HiPerGator in `runs/regression_0731db5/superseded_slim_mlp_c1_raw/`.
