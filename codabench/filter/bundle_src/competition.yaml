@@ -1,6 +1,6 @@
 # Results submission: participants upload predictions; build_bundle.py adds reference_data/, solution/,
 # starting_kit/*_sample_ids.csv, starting_kit/sample_submission.zip and scoring_program/{metrics.py, reference.json}.
-# Before upload: add logo.png, replace the placeholder terms and set the phase start date (codabench/README.md).
+# Before publishing: replace the placeholder terms and set the phase start date (codabench/README.md).
 version: 2
 title: "Smart Pixels filter: on-sensor low-pT cluster rejection"
 description: Classify silicon-pixel clusters as high- or low-pT with a network small enough for the pixel ASIC; ranked by background rejection at 93.3% signal efficiency.

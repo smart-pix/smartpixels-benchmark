@@ -7,7 +7,7 @@ One results-submission competition per benchmark. Participants run their model o
 ```
 codabench/
 ├── build_bundle.py            <task>/bundle_src + generated files -> build/<task>/
-├── filter/bundle_src/         competition.yaml, pages/, scoring_program/{scoring.py, metadata.yaml}, starting_kit/README.md
+├── filter/bundle_src/         competition.yaml, logo.png, pages/, scoring_program/{scoring.py, metadata.yaml}, starting_kit/README.md
 ├── regression/bundle_src/
 └── build/<task>/              generated, git-ignored
     ├── bundle/                validate this
@@ -100,8 +100,9 @@ Both zips are under the legacy 300 MB cap. The 2026-11-14 build with 2s (job 513
 
 ## Before upload
 
-- [ ] `logo.png` in each `bundle_src/`: none exists, and none is fabricated here.
-- [ ] Replace `pages/terms_and_conditions.md`, which is a marked placeholder, with the organizers' terms.
+- [x] `logo.png` in each `bundle_src/`: the user's Smart Pixels logo (PNG 1700 × 828, sha256 79d1cca9…d778).
+- [ ] Replace `pages/terms_and_conditions.md`, which is a marked placeholder, with the organizers' terms. The
+  competitions are uploaded unpublished with the placeholder and the terms are replaced before publishing.
 - [ ] Set the phase `start` (placeholder 1-1-2027), and optionally `contact_email`.
 - [ ] Confirm the titles, `max_submissions_per_day` (5) and `execution_time_limit` (600 s filter, 1200 s regression).
 - [x] The repository URL is in each `pages/overview.md`.

@@ -1,6 +1,6 @@
 # Results submission: participants upload predictions; build_bundle.py adds reference_data/, solution/,
 # starting_kit/*_sample_ids.csv, starting_kit/sample_submission.zip and scoring_program/{metrics.py, reference.json}.
-# Before upload: add logo.png, replace the placeholder terms and set the phase start date (codabench/README.md).
+# Before publishing: replace the placeholder terms and set the phase start date (codabench/README.md).
 version: 2
 title: "Smart Pixels regression: on-chip hit position and angle"
 description: Estimate a pixel cluster's crossing position and angles, with uncertainties, using a network small enough for the readout chip; ranked by I68 resolution relative to the reference.
