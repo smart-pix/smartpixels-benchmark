@@ -7,6 +7,7 @@ tf = pytest.importorskip("tensorflow")
 
 from smartpix_bench.common.features import add_noise, digitize  # noqa: E402
 from smartpix_bench.regression import data as rd  # noqa: E402
+from smartpix_bench.regression import features as rf  # noqa: E402
 from smartpix_bench.regression import losses, models, predict, score, train  # noqa: E402
 from smartpix_bench.regression.softquantize import AnnealK, SoftQuantize, k_at  # noqa: E402
 
@@ -170,3 +171,24 @@ def test_two_stage_train_predict(fixture_data, tmp_path, monkeypatch):
     got = predict.predict_split(m, meta, "3s", fixture_data)
     np.testing.assert_allclose(got["x-midplane"], dig[:, 0] * meta["label_scale"][0], rtol=1e-5)
     assert not np.allclose(raw, dig)
+
+
+def test_slim_mlp_c1_standardizes_its_inputs(fixture_data, tmp_path, monkeypatch):
+    monkeypatch.setattr(rd, "VAL_FRAC", 0.5)
+    fit, seen = train.fit, {}
+
+    def spy(m, x_tr, *a, **k):
+        seen[m.name] = x_tr.copy()
+        return fit(m, x_tr, *a, **k)
+    monkeypatch.setattr(train, "fit", spy)
+    w = tmp_path / "w"
+    for model in ("Slim_MLP", "Full_MLP"):
+        train.run(model, "c1", 0, w, epochs=1, data_dir=fixture_data)
+    raw = train.load_train_val(rf.SLICES_20, fixture_data)[0][0]
+    meta = predict.load_meta(w / "Slim_MLP_c1_s0")
+    x = seen["Slim_MLP"]
+    assert np.array_equal(x == 0, raw == 0)
+    assert x[x != 0].mean() == pytest.approx(0, abs=1e-4) and x[x != 0].std() == pytest.approx(1, rel=1e-4)
+    np.testing.assert_allclose(predict.inputs(raw.copy(), meta), x, rtol=1e-5, atol=1e-5)
+    assert "input_standardize" not in predict.load_meta(w / "Full_MLP_c1_s0")
+    np.testing.assert_array_equal(seen["Full_MLP"], raw)

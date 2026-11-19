@@ -48,6 +48,8 @@ def load_meta(stem) -> dict:
 
 
 def inputs(x: np.ndarray, meta: dict) -> np.ndarray:
+    if "input_standardize" in meta:
+        return rf.standardize(x, meta["input_standardize"])
     return digitize(x, meta["thresholds"]) if meta["config"] in ("c3", "c4") else x
 
 

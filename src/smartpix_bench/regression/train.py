@@ -7,7 +7,8 @@ SoftQuantize (thresholds start at the transformer means, k annealed 1 -> 67) and
 its best validation epoch; c3 (float) and c4 (QKeras) then train fresh models on inputs hard-digitized
 (Eq 4) at those thresholds, noise-free. The sq stage validates on one fixed-seed noise draw (reused every epoch), so
 best-validation selection sees the on-chip noise it is meant to be robust to. Nadam 1e-3, batch 5000, 1000 epochs, best-validation weights kept.
-Targets are divided by the per-target 99th percentile |label| of the train split (stored in the meta file).
+Targets are divided by the per-target 99th percentile |label| of the train split (stored in the meta file); the
+STANDARDIZE_INPUTS model-configs also standardize their nonzero input pixels with train-split statistics (likewise stored).
 """
 
 import argparse
@@ -24,6 +25,8 @@ from smartpix_bench.regression import models, predict, score
 
 EPOCHS, BATCH, LR = 1000, 5000, 1e-3
 VAL_NOISE_SEED = 0
+# Deviation from the paper's recipe: on raw 20-frame inputs Slim_MLP's training is unstable (docs/VALIDATION.md R16).
+STANDARDIZE_INPUTS = {("Slim_MLP", "c1")}
 
 
 def weights_dir() -> Path:
@@ -61,6 +64,9 @@ def run(model: str, config: str, seed: int, out: Path, epochs: int = EPOCHS, dat
     stem = out / f"{model}_{config}_s{seed}"
     out.mkdir(parents=True, exist_ok=True)
     meta = {"model": model, "config": config, "seed": seed, "targets": targets, "label_scale": scale.tolist()}
+    if (model, config) in STANDARDIZE_INPUTS:
+        meta["input_standardize"] = rf.standardize_stats(x_tr)
+        x_tr, x_va = (rf.standardize(x, meta["input_standardize"]) for x in (x_tr, x_va))
     if config == "sq":
         m = models.build(model, softquantize=rf.TRANSFORMER_THRESHOLDS)
         sq = m.get_layer("softquantize")
