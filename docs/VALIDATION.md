@@ -322,10 +322,11 @@ Each line: what the paper or upstream says, what this benchmark does, and the ev
 | Regression reference | 0731db5 | sq 50657941, c1 50657942, c2 50657943, c3c4 50657944, predict 50657945, score 50657946 | all exit 0; Slim rows superseded (§8) |
 | Regression Slim retrain | afd4a9a | sq 51054890, c1 51054891, c2 51054892, c3c4 51054893, predict 51054894, score 51054895 (tasks 20–34) | all exit 0 |
 | Regression Codabench bundle (3s and 2s), tiers 1–4 | afd4a9a | build + tier 4 51318708, tiers 1–3 51902398 | exit 0; 144 zips match; superseded by 3s only |
-| Regression Codabench bundle (3s only), tiers 1–4 | 75ebfca | 51905203 | exit 0; 144 zips match on 3s; zip 265 MB (codabench/README.md) |
+| Regression Codabench bundle (3s only), tiers 1–4 | 75ebfca | 51905203 | exit 0; 144 zips match on 3s; zip 265 MB; superseded by the rebuild below |
 | Slim_MLP c1 remedy probe, 200 epochs (R16) | 75ebfca + a probe script | 51932787_[0-4] | all exit 0 |
 | Slim_MLP c1 standardized rerun | 3ddf8e2 | train 51935283_[0-4], predict + score 51935284 | all exit 0 |
 | Filter Codabench bundle with logo, tiers 1–4 | ac4c2b9 | 51935279 | exit 0; 25 zips match |
+| Regression Codabench bundle (3s only, Slim_MLP c1 rerun), tiers 1–4 | 0f88223 | 51947727 | exit 0; 144 zips match on 3s; zip 266 MB (codabench/README.md) |
 
 ## 7. Tools
 

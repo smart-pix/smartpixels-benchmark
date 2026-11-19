@@ -62,11 +62,12 @@ baseline.
 ## Validation
 
 **Filter, real data.** Built on HiPerGator on 2026-11-10 from the 2:1:1 reference run (`runs/filter_d74c027`).
-The bundle is 194 MB, the zip 70 MB.
+The bundle is 194 MB, the zip 70 MB. Rebuilt on 2026-11-19 with the logo and QM2_w4a8 (code ac4c2b9, job
+51935279): zip 73 MB, all 25 pipeline zips match, tiers 1–4 as below with tier 1 clean.
 - All 20 pipeline zips score identically to their `metrics.json`.
 - Discrimination: QM2_s4 rejects 0.1976 against the baseline's 0.0670 (= 1 − 0.933, every p0 tied). M3 seeds
   reach 0.333–0.342.
-- Validator tiers 1–3: pass except the missing logo (below). The validator warns that `SUBMISSION_FILES`
+- Validator tiers 1–3: pass. The validator warns that `SUBMISSION_FILES`
   omits `descriptor.json`; that file is optional.
 - Malformed uploads fail and name the problem:
   - missing sample: "no prediction for 1 of 1599888 test clusters";
@@ -76,10 +77,10 @@ The bundle is 194 MB, the zip 70 MB.
 - Tier 4: `codalab/codalab-legacy:py312` (Python 3.12.13, numpy 1.26.4, pandas 2.2.3), run with Apptainer on
   HiPerGator. The sample and baseline scores are identical to the host run. There is no local Docker engine.
 
-**Regression, real data, 3s only.** Built on HiPerGator on 2026-11-18 from the reference run
-(`runs/regression_0731db5`; code 75ebfca, job 51905203) against the shipped `i68_reference.json` (Full_MLP c4
+**Regression, real data, 3s only.** Built on HiPerGator on 2026-11-19 from the reference run
+(`runs/regression_0731db5`, with the standardized Slim_MLP c1 rerun; code 0f88223, job 51947727) against the shipped `i68_reference.json` (Full_MLP c4
 seed 2). The zips were repackaged for 3s only. Sizes:
-- bundle directory 478 MiB, `competition_bundle.zip` 265 MB;
+- bundle directory 478 MiB, `competition_bundle.zip` 266 MB;
 - sample submission 103 MB, the largest pipeline zip 104 MB, the baseline 4.2 MB.
 
 Both zips are under the legacy 300 MB cap. The 2026-11-14 build with 2s (job 51318708) was 511 MB, with
@@ -88,7 +89,7 @@ Both zips are under the legacy 300 MB cap. The 2026-11-14 build with 2s (job 513
 - Discrimination on 3s: the solution, Full_MLP_c4_s2, scores `3s_rank_i68` = 1.0. The constant baseline (training
   mean, σ = training std) scores 8.06, and reference models span 0.47–1.61 outside the failed Max_Conv2D seeds
   (1.98–8.06; docs/VALIDATION.md R15).
-- Validator tiers 1–3: pass except the missing logo. As for the filter, the validator warns that
+- Validator tiers 1–3: pass. As for the filter, the validator warns that
   `SUBMISSION_FILES` omits the optional `descriptor.json`.
 - Malformed uploads fail and name the problem:
   - missing sample: "predictions_3s.csv has no prediction for 1 of 1377888 clusters";
