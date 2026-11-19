@@ -1,13 +1,13 @@
 # MLCommons Science Benchmarks Ontology rubric (arXiv:2511.05614 §III); score with benchmark-builder scripts/score_benchmark.py
 benchmark_name: smartpixels-filter
 scored_date: '2026-11-18'
-notes: 'Re-scored 2026-11-18 after the repository was made public (https://github.com/lgray/smartpixels-benchmark). Caveat: paper_exists
+notes: 'Re-scored 2026-11-18 after the repository was made public (https://github.com/smart-pix/smartpixels-benchmark). Caveat: paper_exists
   counts the papers that define the task, data and reference models; no paper describes this benchmark package itself.'
 software_environment:
 - id: code_available
   description: The code is available to reproduce the baseline reference solution.
   met: true
-  evidence: Public repository https://github.com/lgray/smartpixels-benchmark (src/smartpix_bench, slurm/, scripts/).
+  evidence: Public repository https://github.com/smart-pix/smartpixels-benchmark (src/smartpix_bench, slurm/, scripts/).
 - id: code_complete
   description: The provided code is complete.
   met: true
@@ -82,7 +82,7 @@ reference_solution:
 - id: publicly_available
   description: A reference solution is publicly available.
   met: true
-  evidence: Code and the median-seed weights (weights/<task>/, sha256 in weights/MANIFEST.json) are public at https://github.com/lgray/smartpixels-benchmark.
+  evidence: Code and the median-seed weights (weights/<task>/, sha256 in weights/MANIFEST.json) are public at https://github.com/smart-pix/smartpixels-benchmark.
 - id: well_documented
   description: The provided reference solution is well documented.
   met: true
@@ -100,7 +100,7 @@ reference_solution:
   description: The baseline solution/model is openly available for study (architecture, hyperparameters, and training code
     if a neural network).
   met: true
-  evidence: Architecture, hyperparameters and training code are public at https://github.com/lgray/smartpixels-benchmark (benchmarks/filter/README.md §4).
+  evidence: Architecture, hyperparameters and training code are public at https://github.com/smart-pix/smartpixels-benchmark (benchmarks/filter/README.md §4).
 documentation:
 - id: task_explained
   description: The task is explained and well documented.

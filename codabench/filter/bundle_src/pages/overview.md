@@ -12,5 +12,5 @@ There are two tracks:
 - **open**: no constraints.
 
 The reference models and the full protocol are in the benchmark card (`benchmarks/filter/README.md` in the
-benchmark repository, https://github.com/lgray/smartpixels-benchmark). Yoo et al., arXiv:2310.02474, define the
+benchmark repository, https://github.com/smart-pix/smartpixels-benchmark). Yoo et al., arXiv:2310.02474, define the
 task; the dataset is Zenodo 10.5281/zenodo.10783560 v3 (CC-BY-4.0).
